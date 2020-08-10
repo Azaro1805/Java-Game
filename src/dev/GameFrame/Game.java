@@ -2,12 +2,10 @@ package dev.GameFrame;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-
 import dev.GameFrame.Display.Display;
 import dev.GameFrame.gfx.Assets;
-import dev.GameFrame.gfx.ImageLoader;
-import dev.GameFrame.gfx.SpriteSheet;
+import dev.GameFrame.states.GameState;
+import dev.GameFrame.states.State;
 
 public class Game implements Runnable {
 
@@ -18,9 +16,9 @@ public class Game implements Runnable {
 	private Thread thread; 
 	private BufferStrategy bs;
 	private Graphics g;
-	int x = 0;
 
-
+	//States
+	private State gameState;
 
 
 
@@ -32,8 +30,18 @@ public class Game implements Runnable {
 
 	}
 
+	private void init () {
+		display = new Display(title, width, height );
+		Assets.init();
+
+		gameState = new GameState(); 
+		State.setState(gameState);
+	}
+
 	private void tick() {
-		x+=1;
+		if (State.getState() != null) {
+			State.getState().tick();
+		}
 	}
 
 	private void render() {
@@ -45,18 +53,17 @@ public class Game implements Runnable {
 		g = bs.getDrawGraphics();
 		//clear Screen 
 		g.clearRect(0, 0, width, height); // 0-0 all of the screen 
+
 		//Draw Here!
 
-		//g.drawImage(test ,0,0,null);
-		//g.drawImage(sheet.crop(40, 0, 120, 128) , 5, 5, null);
 
-		g.drawImage(Assets.grass,x,10,null);
-		g.drawImage(Assets.stump,50,50,null);
-		g.drawImage(Assets.dirt,90,90,null);
-		g.drawImage(Assets.player,130,130,null);
+		if (State.getState() != null) {
+			State.getState().render(g);
+		}
 
 
 		//End Drawing!
+
 		bs.show();
 		g.dispose();
 
@@ -91,18 +98,12 @@ public class Game implements Runnable {
 				ticks=0;
 				timer=0;
 			}
-			
+
 		}//while 
-		
+
 		stop();
-		
+
 	}//run
-
-	private void init () {
-		display = new Display(title, width, height );
-		Assets.init();
-
-	}
 
 	public synchronized void start() {
 		if (running)
@@ -127,3 +128,11 @@ public class Game implements Runnable {
 
 
 }//Game
+
+//notes :
+//g.drawImage(test ,0,0,null);
+//g.drawImage(sheet.crop(40, 0, 120, 128) , 5, 5, null);
+//g.drawImage(Assets.grass,x,10,null);
+//g.drawImage(Assets.stump,50,50,null);
+//g.drawImage(Assets.dirt,90,90,null);
+//g.drawImage(Assets.player,130,130,null);
