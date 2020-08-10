@@ -1,4 +1,4 @@
-package dev.codenmore.GameFrame.Display;
+package dev.GameFrame.Display;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -9,6 +9,8 @@ public class Display {
 
 	private JFrame frame; 
 	private Canvas canvas;
+	
+	
 	
 	// JFrame size and title
 	private String title;

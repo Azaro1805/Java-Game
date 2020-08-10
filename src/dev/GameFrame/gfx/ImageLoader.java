@@ -1,4 +1,4 @@
-package dev.codenmore.GameFrame.gfx;
+package dev.GameFrame.gfx;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

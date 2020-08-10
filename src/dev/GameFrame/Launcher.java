@@ -1,4 +1,4 @@
-package dev.codenmore.GameFrame;
+package dev.GameFrame;
 
 //import dev.codenmore.GameFrame.Display.Display;
 
