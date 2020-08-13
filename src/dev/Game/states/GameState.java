@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.Game.Game;
 import dev.Game.Entities.Creatures.Player;
+import dev.Game.tiles.Tile;
 
 public class GameState extends State {
 
@@ -22,6 +23,8 @@ public class GameState extends State {
 	@Override
 	public void render(Graphics g) {
 		player.render(g);
+		Tile.tiles[2].render(g, 0, 0);
+
 	}
 
 }// State
