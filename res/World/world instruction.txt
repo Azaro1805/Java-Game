@@ -1,0 +1,11 @@
+
+size : width - 5 , height - 7
+player respawn - 0,0
+tile sequence (5*7) : 
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0 
