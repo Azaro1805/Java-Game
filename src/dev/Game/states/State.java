@@ -3,19 +3,22 @@ package dev.Game.states;
 import java.awt.Graphics;
 
 import dev.Game.Game;
+import dev.Game.Handler;
 
 public abstract class State {
 
 	protected Game game;
 
 	private static State currentState = null;
-
 	
-	public State(Game game) {
-		this.game = game;
+	protected Handler handler;
+
+
+	public State(Handler handler) {
+		this.handler = handler;
 	}
 
-
+	
 	public static void setState(State state) {
 		currentState = state;
 	}
