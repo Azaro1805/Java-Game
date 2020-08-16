@@ -47,12 +47,9 @@ public class Assets {
 		player_Stand[0] = sheetPlayer.crop(0, 3*heightPlayer, widthPlayer, heightPlayer); 
 		player_Stand[1] = sheetPlayer.crop(widthPlayer, 3*heightPlayer, widthPlayer, heightPlayer);
 		
-		 
+		//Static entity
 		
-		
-		
-		
-		
+		tree = sheet.crop(4*width, 0, width, 2*height);
 		stump = sheet.crop(0, 0, width, height);
 		dirt = sheet.crop(width, 0, width, height);
 		grass = sheet.crop(2*width, 0, width, height);
