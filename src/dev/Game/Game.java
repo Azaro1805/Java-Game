@@ -28,8 +28,8 @@ public class Game implements Runnable {
 	private Graphics g;
 
 	//States
-	private State gameState;
-	private State menuState;
+	public State gameState;
+	public State menuState;
 
 	//input
 	private KeyManager keyManager;
@@ -64,9 +64,9 @@ public class Game implements Runnable {
 		gameCamera = new GameCamera(handler, 0, 0); //game camera start in 0,0 
 		
 		gameState = new GameState(handler); 
-		State.setState(gameState);
+		//State.setState(gameState);
 		menuState = new MenuState(handler); 
-		//State.setState(menuState);
+		State.setState(menuState);
 	}
 
 	private void tick() {
