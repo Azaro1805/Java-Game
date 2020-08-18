@@ -12,11 +12,18 @@ public class Assets {
 	
 	public static BufferedImage player, dirt, grass, stone, tree, stump, rock;	
 	public static BufferedImage [] player_left, player_right, player_ud, player_Stand;
+	public static BufferedImage [] btn_start;
 	
 	public static void init () {
 		SpriteSheet sheet = new SpriteSheet (ImageLoader.loadImage("/textures/objects22.png"));
 		SpriteSheet sheetPlayer = new SpriteSheet (ImageLoader.loadImage("/textures/PlayerObjects.png"));
+		SpriteSheet button_menu = new SpriteSheet (ImageLoader.loadImage("/textures/menu.png"));
 
+		//button_menu
+		btn_start =  new BufferedImage[2];
+		btn_start[0] = button_menu.crop(0, 0, 94, 40);
+		btn_start[1] = button_menu.crop(0, 0, 94, 40);
+		
 		//player movement
 		player_right = new BufferedImage[8];
 		player_right[0] = sheetPlayer.crop(0, 0, widthPlayer, heightPlayer); 
