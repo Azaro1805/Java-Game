@@ -1,7 +1,7 @@
 package dev.Game.Entities.Creatures;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import dev.Game.Handler;
@@ -33,17 +33,31 @@ public class Player extends Creature {
 
 	@Override
 	public void tick() {
+		
 		//Animation
 		animRight.tick();
 		animLeft.tick();
 		animUd.tick();
 		animStand.tick();
+		
 		//Movement
 		getInput();
 		move();
 		handler.getGameCamera().ceterCamrea(this);
+		
+		//Attack
+		checkAttack();
 	}
 
+	private void checkAttack() {
+		Rectangle cb = getCollisionBounds(0,0);
+
+		Rectangle ar = new Rectangle();
+		int arSize = 20;
+		ar.height = arSize;
+		ar.width = arSize;
+	}
+	
 	private void getInput() {
 		xMove = 0 ;
 		yMove = 0 ;
@@ -79,6 +93,11 @@ public class Player extends Creature {
 		}else {
 			return animStand.getCurrentFrame();
 		}
+	}
+
+	@Override
+	public void die() {
+		System.out.println("You Lose");
 	}
 
 
