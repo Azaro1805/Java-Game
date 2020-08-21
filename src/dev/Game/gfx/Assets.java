@@ -11,7 +11,7 @@ public class Assets {
 	
 	
 	public static BufferedImage player, dirt, grass, stone, tree, stump, rock;	
-	public static BufferedImage [] player_left, player_right, player_ud, player_Stand;
+	public static BufferedImage [] player_left, player_right, player_ud, player_Stand, player_StandL;
 	public static BufferedImage [] btn_start;
 	
 	public static void init () {
@@ -54,8 +54,11 @@ public class Assets {
 		player_Stand[0] = sheetPlayer.crop(0, 3*heightPlayer, widthPlayer, heightPlayer); 
 		player_Stand[1] = sheetPlayer.crop(widthPlayer, 3*heightPlayer, widthPlayer, heightPlayer);
 		
-		//Static entity
+		player_StandL = new BufferedImage[2];
+		player_StandL[0] = sheetPlayer.crop(0, 4*heightPlayer, widthPlayer, heightPlayer); 
+		player_StandL[1] = sheetPlayer.crop(widthPlayer, 4*heightPlayer, widthPlayer, heightPlayer);
 		
+		//Static entity
 		tree = sheet.crop(4*width, 0, width, 2*height);
 		stump = sheet.crop(0, 0, width, height);
 		dirt = sheet.crop(width, 0, width, height);
