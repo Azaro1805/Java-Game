@@ -5,14 +5,20 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import dev.Game.Handler;
+import dev.Game.Entities.Entity;
 import dev.Game.gfx.Animation;
 import dev.Game.gfx.Assets;
 
 public class Player extends Creature {
 
 	//Animation
-	private Animation animRight, animLeft, animUd, animStand ;
-
+	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft ;
+	private boolean switchSide = false;
+	private int aRight, aLeft;
+	// Attack Timers
+	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
+	// attackCooldown  - cooldown between attacks in ms;
+	private int attackPower = 10;
 
 
 	public Player( Handler handler ,float x, float y) {
@@ -29,47 +35,91 @@ public class Player extends Creature {
 		animLeft = new Animation(100, Assets.player_left);
 		animUd = new Animation(100, Assets.player_ud);
 		animStand = new Animation(1000, Assets.player_Stand);
+		animStandLeft = new Animation(1000, Assets.player_StandL);
+		animAttackRight = new Animation(10, Assets.player_right);
+		animAttackLeft = new Animation(10, Assets.player_left);
 	}
 
 	@Override
 	public void tick() {
-		
+
 		//Animation
 		animRight.tick();
 		animLeft.tick();
 		animUd.tick();
 		animStand.tick();
-		
+		animStandLeft.tick();
+		animAttackRight.tick();
+		animAttackLeft.tick();
+
 		//Movement
 		getInput();
 		move();
 		handler.getGameCamera().ceterCamrea(this);
-		
+
 		//Attack
 		checkAttack();
 	}
 
 	private void checkAttack() {
-		Rectangle cb = getCollisionBounds(0,0);
+		attackTimer += System.currentTimeMillis() - lastAttackTimer;
+		lastAttackTimer = System.currentTimeMillis();
+		if (attackTimer < attackCooldown) // return if the player try to attack to fast (nothing happend)
+			return;
 
+		Rectangle cb = getCollisionBounds(0,0);
 		Rectangle ar = new Rectangle();
 		int arSize = 20;
 		ar.height = arSize;
 		ar.width = arSize;
+
+		if(handler.getKeyManager().aUp ) { // || handler.getKeyManager().c for all
+			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.y = cb.y - arSize;
+		}else if(handler.getKeyManager().aDown) { 
+			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.y = cb.y + cb.height;
+		}else if(handler.getKeyManager().aLeft) {
+			ar.x = cb.x - arSize;
+			ar.y = cb.y + cb.height / 2 - arSize / 2;
+		}else if(handler.getKeyManager().aRight) {
+			ar.x = cb.x +  cb.width;
+			ar.y = cb.y + cb.height / 2 - arSize / 2;
+		}else {
+			return;
+		}
+
+		attackTimer = 0;
+
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			if(e.equals(this)) 
+				continue;
+			if(e.getCollisionBounds(0, 0).intersects(ar)) {
+				e.hurt(attackPower); // attackPower - how much damage the player deal
+			}
+		}
+
 	}
-	
+
 	private void getInput() {
 		xMove = 0 ;
 		yMove = 0 ;
+		aRight = 0;
+		aLeft = 0;
 
-		if (handler.getKeyManager().up || handler.getKeyManager().upw )
+		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
 			yMove = -speed;
-		if (handler.getKeyManager().down || handler.getKeyManager().downs)
+		if (handler.getKeyManager().down ) //|| handler.getKeyManager().downs)
 			yMove = speed;
-		if (handler.getKeyManager().right || handler.getKeyManager().rightd)
+		if (handler.getKeyManager().right ) // || handler.getKeyManager().rightd)
 			xMove = speed;
-		if (handler.getKeyManager().left || handler.getKeyManager().lefta)
+		if (handler.getKeyManager().left ) //|| handler.getKeyManager().lefta)
 			xMove = -speed;
+		if(handler.getKeyManager().aRight) 
+			aRight ++;
+		if(handler.getKeyManager().aLeft) 
+			aLeft++;
+
 	}
 
 	@Override
@@ -85,19 +135,37 @@ public class Player extends Creature {
 
 	private BufferedImage getCurrentInamationFrame() {
 		if (xMove < 0) {
+			switchSide = true;
 			return animLeft.getCurrentFrame();
 		}else if (xMove > 0){
+			switchSide = false;
 			return animRight.getCurrentFrame();
 		}else if (yMove < 0 || yMove > 0 ){
-		return animUd.getCurrentFrame();
-		}else {
-			return animStand.getCurrentFrame();
+			return animUd.getCurrentFrame();
+		}else if (aRight > 0 ){
+			return animAttackRight.getCurrentFrame();
+		}else if (aLeft > 0 ){
+			return animAttackLeft.getCurrentFrame();
+		}else { // stand to the right or left (switchSide = true -> left)
+			if(!switchSide) {
+				return animStand.getCurrentFrame();
+			}else {
+				return animStandLeft.getCurrentFrame();
+			}
 		}
 	}
 
 	@Override
 	public void die() {
 		System.out.println("You Lose");
+	}
+
+	public int getAttackPower() {
+		return attackPower;
+	}
+
+	public void setAttackPower(int attackPower) {
+		this.attackPower = attackPower;
 	}
 
 
