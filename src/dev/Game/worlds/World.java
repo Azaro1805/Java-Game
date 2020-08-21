@@ -6,6 +6,9 @@ import dev.Game.Handler;
 import dev.Game.Entities.EntityManager;
 import dev.Game.Entities.Creatures.Player;
 import dev.Game.Entities.Statics.Tree;
+import dev.Game.Entities.Statics.Tree2;
+import dev.Game.Entities.Statics.Tree3;
+import dev.Game.items.ItemManager;
 import dev.Game.tiles.Tile;
 import dev.Game.utils.Utils;
 
@@ -19,11 +22,18 @@ public class World {
 	//Entities
 	private EntityManager entityManager;
 
+	//Item 
+	private ItemManager itemManager;
+	
 	
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
+		itemManager = new ItemManager(handler);
 		entityManager.addEntity(new Tree(handler, 100, 250));
+		entityManager.addEntity(new Tree2(handler, 100, 350));
+		entityManager.addEntity(new Tree3(handler, 100, 450));
+
 		
 		loadWorld(path);
 		
@@ -34,6 +44,7 @@ public class World {
 	
 	public void tick() {
 		entityManager.tick();
+		itemManager.tick();
 	}
 	
 	public void render(Graphics g) {
@@ -50,6 +61,10 @@ public class World {
 						(int) (y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset() ));
 			}
 		}
+		
+		//Items
+		itemManager.render(g);
+		//Entities
 		entityManager.render(g);
 	}
 	
@@ -80,8 +95,26 @@ public class World {
 
 	}
 
+	//Getters & Setters
+	
 	public int getWidth() {
 		return width;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
+	public ItemManager getItemManager() {
+		return itemManager;
+	}
+
+	public void setItemManager(ItemManager itemManager) {
+		this.itemManager = itemManager;
 	}
 
 	public int getHeight() {
