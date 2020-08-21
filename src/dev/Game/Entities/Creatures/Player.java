@@ -12,9 +12,10 @@ import dev.Game.gfx.Assets;
 public class Player extends Creature {
 
 	//Animation
-	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft ;
+	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft,
+						animDie, animHurt;
 	private boolean switchSide = false;
-	private int aRight, aLeft;
+	private int aRight, aLeft, aUp, aDown;
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 	// attackCooldown  - cooldown between attacks in ms;
@@ -36,8 +37,10 @@ public class Player extends Creature {
 		animUd = new Animation(100, Assets.player_ud);
 		animStand = new Animation(1000, Assets.player_Stand);
 		animStandLeft = new Animation(1000, Assets.player_StandL);
-		animAttackRight = new Animation(10, Assets.player_right);
-		animAttackLeft = new Animation(10, Assets.player_left);
+		animAttackRight = new Animation(100, Assets.player_attackRight);
+		animAttackLeft = new Animation(100, Assets.player_attackLeft);
+		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
+		animHurt = new Animation(100, Assets.player_Hurt);
 	}
 
 	@Override
@@ -51,7 +54,9 @@ public class Player extends Creature {
 		animStandLeft.tick();
 		animAttackRight.tick();
 		animAttackLeft.tick();
-
+		animDie.tick();
+		animHurt.tick();
+		
 		//Movement
 		getInput();
 		move();
@@ -106,6 +111,8 @@ public class Player extends Creature {
 		yMove = 0 ;
 		aRight = 0;
 		aLeft = 0;
+		aUp = 0;
+		aDown = 0;
 
 		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
 			yMove = -speed;
@@ -119,6 +126,10 @@ public class Player extends Creature {
 			aRight ++;
 		if(handler.getKeyManager().aLeft) 
 			aLeft++;
+		if(handler.getKeyManager().aUp) 
+			aUp++;
+		if(handler.getKeyManager().aDown) 
+			aDown++;
 
 	}
 
@@ -142,9 +153,23 @@ public class Player extends Creature {
 			return animRight.getCurrentFrame();
 		}else if (yMove < 0 || yMove > 0 ){
 			return animUd.getCurrentFrame();
+		}else if (aUp > 0 ){
+			if (switchSide) {
+				return animAttackLeft.getCurrentFrame();
+			}else { 
+				return animAttackRight.getCurrentFrame();
+			}
+		}else if (aDown > 0 ){
+			if (switchSide) {
+				return animAttackLeft.getCurrentFrame();
+			}else { 
+				return animAttackRight.getCurrentFrame();
+			}
 		}else if (aRight > 0 ){
+			switchSide = false;
 			return animAttackRight.getCurrentFrame();
 		}else if (aLeft > 0 ){
+			switchSide = true;
 			return animAttackLeft.getCurrentFrame();
 		}else { // stand to the right or left (switchSide = true -> left)
 			if(!switchSide) {
