@@ -147,7 +147,6 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
-		inventory.render(g);
 		
 		
 		//	g.setColor(Color.red);
@@ -197,6 +196,10 @@ public class Player extends Creature {
 		System.out.println("You Lose");
 	}
 
+	public void postRender(Graphics g) {
+		inventory.render(g);
+	}
+	
 	
 	//Getters && Setters
 	
