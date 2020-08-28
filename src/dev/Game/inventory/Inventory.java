@@ -3,20 +3,31 @@ package dev.Game.inventory;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
 import dev.Game.Handler;
+import dev.Game.gfx.Assets;
 import dev.Game.items.Item;
+
 
 public class Inventory {
 
 	private Handler handler;
 	private boolean active = false;
 	private ArrayList<Item> inventoryItems;
+	
+	//inventory size screen
+	private int invX = 64, invY= 48,  
+			invWidth = 297, invHeight = 126,
+			invListCenetrX = invX + 171,
+			invListCenetrY = invY + invHeight / 2 + 5;
 
 
 	public Inventory(Handler handler) {
 		this.handler = handler;
 		inventoryItems =  new ArrayList<Item>();
+		
+		addItem(Item.RockItem.createNew(5));
+		addItem(Item.WoodItem.createNew(3));
+
 	}
 
 	public void tick() {
@@ -24,7 +35,7 @@ public class Inventory {
 			active = !active; 
 		if(!active)
 			return;
-		
+
 		System.out.println("INBENTORY");
 		for(Item i : inventoryItems) {
 			System.out.println(i.getName() + "   " +  i.getCount() );
@@ -34,6 +45,8 @@ public class Inventory {
 	public void render (Graphics g) {
 		if(!active)
 			return;
+
+		g.drawImage(Assets.inventoryScreen, invX, invY, invWidth, invHeight, null);
 	}
 
 	// Inventory methods
