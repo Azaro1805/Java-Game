@@ -59,6 +59,13 @@ public class Item {
 		return i;
 	}
 	
+	public Item createNew(int count) {
+		Item i = new Item(texture, name, id);
+		i.setPickedUp(true);
+		i.setCount(count);
+		return i;
+	}
+	
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
