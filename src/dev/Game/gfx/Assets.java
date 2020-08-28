@@ -1,5 +1,6 @@
 package dev.Game.gfx;
 
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 public class Assets {
@@ -8,18 +9,22 @@ public class Assets {
 	private static final int width=35 , height =35;
 	private static final int widthPlayer=40 , heightPlayer =70;
 
-
+	public static Font font28, font48;
 
 	public static BufferedImage player, dirt, grass, stone, tree, stump, rock, timber, tree2, tree3;	
 	public static BufferedImage [] player_left, player_right, player_ud, player_Stand, player_StandL;
 	public static BufferedImage [] player_attackLeft, player_attackRight, player_Hurt, player_Die;
 	public static BufferedImage [] btn_start;
+	public static BufferedImage  inventoryScreen;
+
 
 	public static void init () {
 		SpriteSheet sheet = new SpriteSheet (ImageLoader.loadImage("/textures/objects22.png"));
 		SpriteSheet sheetPlayer = new SpriteSheet (ImageLoader.loadImage("/textures/PlayerObjects.png"));
 		SpriteSheet button_menu = new SpriteSheet (ImageLoader.loadImage("/textures/menu.png"));
 
+		
+		
 		//button_menu
 		btn_start =  new BufferedImage[2];
 		btn_start[0] = button_menu.crop(0, 0, 94, 40);
@@ -104,6 +109,11 @@ public class Assets {
 
 		//player = sheetPlayer.crop(0, 0, widthPlayer, heightPlayer);
 
+		//Inventory Screen
+		font28 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 28);
+		font48 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 48);
+		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
+		
 	}
 
 }// Assets
