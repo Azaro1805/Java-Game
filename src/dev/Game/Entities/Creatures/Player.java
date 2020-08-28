@@ -8,6 +8,7 @@ import dev.Game.Handler;
 import dev.Game.Entities.Entity;
 import dev.Game.gfx.Animation;
 import dev.Game.gfx.Assets;
+import dev.Game.inventory.Inventory;
 
 public class Player extends Creature {
 
@@ -16,11 +17,15 @@ public class Player extends Creature {
 						animDie, animHurt;
 	private boolean switchSide = false;
 	private int aRight, aLeft, aUp, aDown;
+	
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
+
 	// attackCooldown  - cooldown between attacks in ms;
 	private int attackPower = 10;
 
+	//Inventory
+	private Inventory inventory;
 
 	public Player( Handler handler ,float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2 );
@@ -41,6 +46,8 @@ public class Player extends Creature {
 		animAttackLeft = new Animation(100, Assets.player_attackLeft);
 		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.player_Hurt);
+		
+		inventory =  new Inventory(handler);
 	}
 
 	@Override
@@ -64,6 +71,9 @@ public class Player extends Creature {
 
 		//Attack
 		checkAttack();
+		
+		//Inventory
+		inventory.tick();
 	}
 
 	private void checkAttack() {
@@ -137,7 +147,9 @@ public class Player extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
-
+		inventory.render(g);
+		
+		
 		//	g.setColor(Color.red);
 		//	g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 		//		(int) (y + bounds.y - handler.getGameCamera().getyOffset()),
@@ -185,6 +197,9 @@ public class Player extends Creature {
 		System.out.println("You Lose");
 	}
 
+	
+	//Getters && Setters
+	
 	public int getAttackPower() {
 		return attackPower;
 	}
@@ -193,5 +208,12 @@ public class Player extends Creature {
 		this.attackPower = attackPower;
 	}
 
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
 
 }
