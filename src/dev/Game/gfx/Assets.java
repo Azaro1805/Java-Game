@@ -112,7 +112,7 @@ public class Assets {
 		//Inventory Screen
 		font28 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 28);
 		font48 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 48);
-		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen.png");
+		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen2.png");
 		
 	}
 
