@@ -81,6 +81,9 @@ public class Player extends Creature {
 		lastAttackTimer = System.currentTimeMillis();
 		if (attackTimer < attackCooldown) // return if the player try to attack to fast (nothing happend)
 			return;
+		
+		if(inventory.isActive()) // if the inventory is open the player doesn't move
+			return;
 
 		Rectangle cb = getCollisionBounds(0,0);
 		Rectangle ar = new Rectangle();
@@ -117,6 +120,7 @@ public class Player extends Creature {
 	}
 
 	private void getInput() {
+		
 		xMove = 0 ;
 		yMove = 0 ;
 		aRight = 0;
@@ -124,6 +128,9 @@ public class Player extends Creature {
 		aUp = 0;
 		aDown = 0;
 
+		if (inventory.isActive())
+			return;
+		
 		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
 			yMove = -speed;
 		if (handler.getKeyManager().down ) //|| handler.getKeyManager().downs)
