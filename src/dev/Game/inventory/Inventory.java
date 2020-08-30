@@ -23,7 +23,6 @@ public class Inventory {
 			invListCenterY = invY + invHeight / 2 + 5,
 			invListSpacing = 30;
 
-
 	private int invImageX = 452, invImageY= 82,  
 			invImageWidth = 64, invImageHeight = 64;
 
@@ -35,8 +34,9 @@ public class Inventory {
 		this.handler = handler;
 		inventoryItems =  new ArrayList<Item>();
 
-		addItem(Item.RockItem.createNew(5));
-		addItem(Item.WoodItem.createNew(3));
+		//addItem(Item.Wood.createNew(1));
+		addItem(Item.Rock.createNew(5));
+		addItem(Item.Rock.createNew(5));
 
 	}
 
@@ -53,7 +53,7 @@ public class Inventory {
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_S) ||
 				handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN))
 			selectedItem++;
-		
+
 		if(selectedItem < 0)
 			selectedItem = inventoryItems.size() - 1;
 		else if(selectedItem >= inventoryItems.size())
@@ -80,22 +80,22 @@ public class Inventory {
 						invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.font28);
 			}
 		}
-		
+
 		Item item = inventoryItems.get(selectedItem);
 		g.drawImage(item.getTexture(), invImageX, invImageY, invImageWidth, invImageHeight, null);
 		Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.font28);
-	
 		//Text.drawString(g, "> Rock <", invListCenetrX, invListCenetrY, true, Color.white, Assets.font28);
-
 	}
 
 	// Inventory methods
 
 	public void addItem(Item item){
+
 		for(Item i : inventoryItems){
 			if(i.getId() == item.getId()){
-				i.setCount(i.getCount() + item.getCount());
-				return;
+					i.setCount(i.getCount() + item.getCount());
+					return;
+				
 			}
 		}
 		inventoryItems.add(item);
