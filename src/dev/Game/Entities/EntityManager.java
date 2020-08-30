@@ -19,7 +19,7 @@ public class EntityManager {
 		public int compare(Entity a, Entity b) {
 			if (a.getY() + a.getHeight() < b.getY() + b.getHeight())
 				return -1;
-			return 0;
+			return 1;
 		}
 	};
 
@@ -75,8 +75,6 @@ public class EntityManager {
 	public void setEntities(ArrayList<Entity> entities) {
 		this.entities = entities;
 	}
-
-	//Getters & Setters
 
 
 }//EntityManager
