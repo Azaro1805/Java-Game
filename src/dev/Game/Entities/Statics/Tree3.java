@@ -31,7 +31,7 @@ public class Tree3 extends StaticEntity{
 
 	@Override
 	public void die() {
-		handler.getWorld().getItemManager().addItem(Item.WoodItem.createNew((int) x, (int) y-40));
+		handler.getWorld().getItemManager().addItem(Item.Wood.createNew((int) x-10, (int) y-30));
 	}
 	
 }
