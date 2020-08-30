@@ -112,8 +112,9 @@ public class Player extends Creature {
 		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
 			if(e.equals(this)) 
 				continue;
-			if(e.getCollisionBounds(0, 0).intersects(ar)) {
-				e.hurt(attackPower); // attackPower - how much damage the player deal
+			if(e.getCollisionBounds(0, 0).intersects(ar)) {// attackPower - how much damage the player deal
+				e.hurt(attackPower); 
+				return;				
 			}
 		}
 
@@ -149,6 +150,7 @@ public class Player extends Creature {
 			aDown++;
 
 	}
+
 
 	@Override
 	public void render(Graphics g) {
