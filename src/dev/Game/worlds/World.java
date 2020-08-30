@@ -43,8 +43,8 @@ public class World {
 	}
 	
 	public void tick() {
-		entityManager.tick();
 		itemManager.tick();
+		entityManager.tick();
 	}
 	
 	public void render(Graphics g) {
