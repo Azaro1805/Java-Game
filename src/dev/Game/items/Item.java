@@ -8,12 +8,12 @@ import dev.Game.Handler;
 import dev.Game.gfx.Assets;
 
 public class Item {
-	
+
 	//Handler
 	public static Item[] items =  new Item[256];
-	public static Item WoodItem = new Item(Assets.timber, "Wood", 0); // create item 
-	public static Item RockItem = new Item(Assets.rock, "Rock", 1);
-	
+	public static Item Wood = new Item(Assets.timber, "Wood", 0); // create item 
+	public static Item Rock = new Item(Assets.rock, "Rock", 1);
+
 	//Class
 
 	public static final int ITEMWIDTH = 34, ITEMHEIGHT = 34;
@@ -28,19 +28,20 @@ public class Item {
 
 	public Item (BufferedImage texture, String name, int id ) {
 		this.texture = texture;
-		this.id = id;
 		this.name = name;
+		this.id = id;
 		count = 1;
-		
+
 		bounds =  new Rectangle(x, y, ITEMWIDTH, ITEMHEIGHT);
-		
+
 		items[id] = this;
 	}
 
 	public void tick() {
-		if(handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0f, 0f).intersects(bounds))
+		if(handler.getWorld().getEntityManager().getPlayer().getCollisionBounds(0f, 0f).intersects(bounds)) {
 			pickedUp = true;
-		handler.getWorld().getEntityManager().getPlayer().getInventory().addItem(this);
+			handler.getWorld().getEntityManager().getPlayer().getInventory().addItem(this);
+		}
 	}
 
 	public void render (Graphics g) {
@@ -53,19 +54,21 @@ public class Item {
 		g.drawImage(texture, x, y, ITEMWIDTH, ITEMHEIGHT, null);
 	}
 
-	public Item createNew(int x, int y) {
-		Item i = new Item(texture, name, id);
-		i.setPosition(x, y);
-		return i;
-	}
-	
 	public Item createNew(int count) {
 		Item i = new Item(texture, name, id);
 		i.setPickedUp(true);
 		i.setCount(count);
 		return i;
 	}
-	
+
+	public Item createNew(int x, int y) {
+		Item i = new Item(texture, name, id);
+		i.setPosition(x, y);
+		return i;
+	}
+
+
+
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -73,7 +76,7 @@ public class Item {
 		bounds.y = y;
 	}
 	//Getters & Setters
-	
+
 	public Handler getHandler() {
 		return handler;
 	}
