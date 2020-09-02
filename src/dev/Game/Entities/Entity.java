@@ -14,7 +14,7 @@ public abstract class Entity {
 	protected int width, height;
 	protected Rectangle bounds ;
 	protected int health;
-	protected boolean active = true;
+	protected boolean active = true, player = false;
 
 
 	public Entity(Handler handler, float x, float y,  int width, int height ) {
@@ -24,11 +24,21 @@ public abstract class Entity {
 		this.height=height;
 		this.width = width;
 		health = DEFAULT_HEALTH;
-
-
 		bounds =  new Rectangle(0, 0, width, height);
 
 	}
+	
+	public Entity(Handler handler, float x, float y,  int width, int height, int health) {
+		this.handler = handler;
+		this.x = x;
+		this.y = y;
+		this.height=height;
+		this.width = width;
+		this.health = health;
+		bounds =  new Rectangle(0, 0, width, height);
+
+	}
+
 
 	public abstract void tick();
 
@@ -50,11 +60,12 @@ public abstract class Entity {
 
 	public abstract void die();
 
+
 	public void hurt(int amt) {
 		health -= amt;
 		if(health <= 0 ) {
-			active = false;
 			die();
+			active = false;
 		}
 	}
 
@@ -106,6 +117,13 @@ public abstract class Entity {
 		this.active = active;
 	}
 
+	public boolean isPlayer() {
+		return player;
+	}
+
+	public void setIfPlayer(boolean player) {
+		this.player = player;
+	}
 
 
 }//Entity
