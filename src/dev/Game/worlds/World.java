@@ -34,14 +34,16 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 100, 250));
 		entityManager.addEntity(new Tree2(handler, 100, 350));
 		entityManager.addEntity(new Tree3(handler, 100, 450));
-		entityManager.addEntity(new Enemy(handler, 0, 0));
+		entityManager.addEntity(new Enemy(handler, 200, 200, 5 , 1));
+		entityManager.addEntity(new Enemy(handler, 300, 300, 5 , 1));
 
-		
 		loadWorld(path);
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
-
+		
+		//for (int i = 0 ; i<entityManager.getEntities().size(); i++){
+		//System.out.println(entityManager.getEntities().get(i));}
 	}
 	
 	public void tick() {
@@ -55,7 +57,6 @@ public class World {
 		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth())/ Tile.TILEWIDTH +1 );
 		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT );
 		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight())/ Tile.TILEHEIGHT +1 );;
-		
 		
 		for (int y=yStart; y<yEnd ;  y++ ) {
 			for (int x = xStart; x<xEnd; x++) {
