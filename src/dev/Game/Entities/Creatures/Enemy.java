@@ -14,24 +14,18 @@ public class Enemy extends Creature {
 
 	//Animation
 	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft,
-						animDie, animHurt;
-	private boolean switchSide = false;
+	animDie, animHurt;
+	private boolean switchSide = false, die = false;
 	private int aRight, aLeft, aUp, aDown;
-	
+
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 
 	// attackCooldown  - cooldown between attacks in ms;
-	private int attackPower = 10;
+	private int attackPower = 7;
 
 	public Enemy( Handler handler ,float x, float y) {
 		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2 );
-
-		//bounds.x = 0; //17
-		//bounds.y = 35;
-		//bounds.width = 35;
-		//bounds.height =35;
-
 
 		//Animation
 		animRight = new Animation(100, Assets.player_right);
@@ -43,7 +37,39 @@ public class Enemy extends Creature {
 		animAttackLeft = new Animation(100, Assets.player_attackLeft);
 		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.player_Hurt);
-		
+
+	}
+
+	public Enemy( Handler handler ,float x, float y, int health ) {
+		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2, health);
+
+		//Animation
+		animRight = new Animation(100, Assets.player_right);
+		animLeft = new Animation(100, Assets.player_left);
+		animUd = new Animation(100, Assets.player_ud);
+		animStand = new Animation(1000, Assets.player_Stand);
+		animStandLeft = new Animation(1000, Assets.player_StandL);
+		animAttackRight = new Animation(100, Assets.player_attackRight);
+		animAttackLeft = new Animation(100, Assets.player_attackLeft);
+		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
+		animHurt = new Animation(100, Assets.player_Hurt);
+
+	}
+
+	public Enemy( Handler handler ,float x, float y, int health , int attackPower ) {
+		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2, health);
+
+		//Animation
+		animRight = new Animation(100, Assets.player_right);
+		animLeft = new Animation(100, Assets.player_left);
+		animUd = new Animation(100, Assets.player_ud);
+		animStand = new Animation(1000, Assets.player_Stand);
+		animStandLeft = new Animation(1000, Assets.player_StandL);
+		animAttackRight = new Animation(100, Assets.player_attackRight);
+		animAttackLeft = new Animation(100, Assets.player_attackLeft);
+		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
+		animHurt = new Animation(100, Assets.player_Hurt);
+		this.attackPower = attackPower;
 	}
 
 	@Override
@@ -59,7 +85,7 @@ public class Enemy extends Creature {
 		animAttackLeft.tick();
 		animDie.tick();
 		animHurt.tick();
-		
+
 		//Movement
 		getInput();
 		move();
@@ -87,10 +113,10 @@ public class Enemy extends Creature {
 		}else if(handler.getKeyManager().aDown) { 
 			ar.x = cb.x + cb.width / 2 - arSize / 2;
 			ar.y = cb.y + cb.height;
-		}else if(handler.getKeyManager().aLeft) {
+		}else if(handler.getKeyManager().aRight) {
 			ar.x = cb.x - arSize;
 			ar.y = cb.y + cb.height / 2 - arSize / 2;
-		}else if(handler.getKeyManager().aRight) {
+		}else if(handler.getKeyManager().aLeft) {
 			ar.x = cb.x +  cb.width;
 			ar.y = cb.y + cb.height / 2 - arSize / 2;
 		}else {
@@ -103,7 +129,10 @@ public class Enemy extends Creature {
 			if(e.equals(this)) 
 				continue;
 			if(e.getCollisionBounds(0, 0).intersects(ar)) {// attackPower - how much damage the player deal
-				e.hurt(attackPower); 
+				if(e.isPlayer()) {
+					e.hurt(attackPower);
+					System.out.println("Enemy hurt me " + attackPower);
+				}
 				return;				
 			}
 		}
@@ -111,7 +140,7 @@ public class Enemy extends Creature {
 	}
 
 	private void getInput() {
-		
+
 		xMove = 0 ;
 		yMove = 0 ;
 		aRight = 0;
@@ -143,8 +172,8 @@ public class Enemy extends Creature {
 	public void render(Graphics g) {
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
-		
-		
+
+
 		//	g.setColor(Color.red);
 		//	g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 		//		(int) (y + bounds.y - handler.getGameCamera().getyOffset()),
@@ -162,22 +191,22 @@ public class Enemy extends Creature {
 			return animUd.getCurrentFrame();
 		}else if (aUp > 0 ){
 			if (switchSide) {
-				return animAttackLeft.getCurrentFrame();
-			}else { 
 				return animAttackRight.getCurrentFrame();
+			}else { 
+				return animAttackLeft.getCurrentFrame();
 			}
 		}else if (aDown > 0 ){
 			if (switchSide) {
-				return animAttackLeft.getCurrentFrame();
-			}else { 
 				return animAttackRight.getCurrentFrame();
+			}else { 
+				return animAttackLeft.getCurrentFrame();
 			}
 		}else if (aRight > 0 ){
 			switchSide = false;
-			return animAttackRight.getCurrentFrame();
+			return animAttackLeft.getCurrentFrame();
 		}else if (aLeft > 0 ){
 			switchSide = true;
-			return animAttackLeft.getCurrentFrame();
+			return animAttackRight.getCurrentFrame();
 		}else { // stand to the right or left (switchSide = true -> left)
 			if(!switchSide) {
 				return animStand.getCurrentFrame();
@@ -189,11 +218,14 @@ public class Enemy extends Creature {
 
 	@Override
 	public void die() {
+		animDie.getCurrentFrame();
+		die = true;
 		System.out.println("Enemy killed");
+
 	}
 
 	//Getters && Setters
-	
+
 	public int getAttackPower() {
 		return attackPower;
 	}
