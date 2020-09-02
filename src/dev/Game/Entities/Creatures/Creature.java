@@ -1,5 +1,7 @@
 package dev.Game.Entities.Creatures;
 
+import java.awt.Graphics;
+
 import dev.Game.Handler;
 import dev.Game.Entities.Entity;
 import dev.Game.tiles.Tile;
@@ -19,6 +21,14 @@ public abstract class Creature extends Entity {
 		yMove = 0;
 	}
 
+
+	public Creature(Handler handler, float x, float y, int width, int height, int health) {
+		super(handler, x, y, width, height, health);
+		speed = DEFAULT_SPEED;
+		xMove = 0;
+		yMove = 0;
+	}
+	
 	public void move() {
 		if(!checkEntityCollisions(xMove, 0f))
 		moveX();
