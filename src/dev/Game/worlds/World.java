@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.Game.Handler;
 import dev.Game.Entities.EntityManager;
+import dev.Game.Entities.Creatures.Enemy;
 import dev.Game.Entities.Creatures.Player;
 import dev.Game.Entities.Statics.Tree;
 import dev.Game.Entities.Statics.Tree2;
@@ -33,6 +34,7 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 100, 250));
 		entityManager.addEntity(new Tree2(handler, 100, 350));
 		entityManager.addEntity(new Tree3(handler, 100, 450));
+		entityManager.addEntity(new Enemy(handler, 0, 0));
 
 		
 		loadWorld(path);
