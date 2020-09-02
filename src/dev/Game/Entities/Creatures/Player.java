@@ -14,27 +14,28 @@ public class Player extends Creature {
 
 	//Animation
 	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft,
-						animDie, animHurt;
-	private boolean switchSide = false;
-	private int aRight, aLeft, aUp, aDown;
-	
+	animDie, animHurt;
+	private boolean switchSide = false, levelUp = false;
+	private int aRight, aLeft, aUp, aDown, xp, xpToLevelUp, clickL;
+
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 
 	// attackCooldown  - cooldown between attacks in ms;
-	private int attackPower = 10;
+	private int attackPower = 5;
 
 	//Inventory
 	private Inventory inventory;
 
 	public Player( Handler handler ,float x, float y) {
-		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2 );
-
+		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2);
+		this.setIfPlayer(true);
+		this.xp = 4;
+		this.xpToLevelUp = 5;
 		//bounds.x = 0; //17
 		//bounds.y = 35;
 		//bounds.width = 35;
 		//bounds.height =35;
-
 
 		//Animation
 		animRight = new Animation(100, Assets.player_right);
@@ -46,7 +47,7 @@ public class Player extends Creature {
 		animAttackLeft = new Animation(100, Assets.player_attackLeft);
 		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.player_Hurt);
-		
+
 		inventory =  new Inventory(handler);
 	}
 
@@ -63,15 +64,20 @@ public class Player extends Creature {
 		animAttackLeft.tick();
 		animDie.tick();
 		animHurt.tick();
-		
+
 		//Movement
 		getInput();
 		move();
 		handler.getGameCamera().ceterCamrea(this);
+		
+		if(clickL == 1) { // level-up process
+			PossibleTolevelUp();
+			levelUp();
+		}
 
 		//Attack
 		checkAttack();
-		
+
 		//Inventory
 		inventory.tick();
 	}
@@ -81,7 +87,7 @@ public class Player extends Creature {
 		lastAttackTimer = System.currentTimeMillis();
 		if (attackTimer < attackCooldown) // return if the player try to attack to fast (nothing happend)
 			return;
-		
+
 		if(inventory.isActive()) // if the inventory is open the player doesn't move
 			return;
 
@@ -121,24 +127,24 @@ public class Player extends Creature {
 	}
 
 	private void getInput() {
-		
 		xMove = 0 ;
 		yMove = 0 ;
 		aRight = 0;
 		aLeft = 0;
 		aUp = 0;
 		aDown = 0;
+		clickL = 0;
 
 		if (inventory.isActive())
 			return;
-		
-		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
+
+		if (handler.getKeyManager().up) //|| handler.getKeyManager().upw )
 			yMove = -speed;
-		if (handler.getKeyManager().down ) //|| handler.getKeyManager().downs)
+		if (handler.getKeyManager().down) //|| handler.getKeyManager().downs)
 			yMove = speed;
-		if (handler.getKeyManager().right ) // || handler.getKeyManager().rightd)
+		if (handler.getKeyManager().right) // || handler.getKeyManager().rightd)
 			xMove = speed;
-		if (handler.getKeyManager().left ) //|| handler.getKeyManager().lefta)
+		if (handler.getKeyManager().left) //|| handler.getKeyManager().lefta)
 			xMove = -speed;
 		if(handler.getKeyManager().aRight) 
 			aRight ++;
@@ -148,16 +154,14 @@ public class Player extends Creature {
 			aUp++;
 		if(handler.getKeyManager().aDown) 
 			aDown++;
+		if (handler.getKeyManager().clickL) 
+			clickL++;
 
 	}
-
 
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-
-		
-		
 		//	g.setColor(Color.red);
 		//	g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
 		//		(int) (y + bounds.y - handler.getGameCamera().getyOffset()),
@@ -208,12 +212,43 @@ public class Player extends Creature {
 	public void postRender(Graphics g) {
 		inventory.render(g);
 	}
-	
-	
+
+	public void PossibleTolevelUp() {
+		if( xpToLevelUp == xp) 
+			levelUp = true;
+	}
+
+	public void levelUp() {
+		attackTimer += System.currentTimeMillis() - lastAttackTimer;
+		lastAttackTimer = System.currentTimeMillis();
+		if (attackTimer < (attackCooldown+100)) // return if the player try to click level up too fast (nothing happen)
+			return;
+		
+		if(levelUp && clickL == 1) {
+			levelUp = false;
+			xpToLevelUp += 2 ;
+			xp = 0 ;
+			attackPower ++;
+			System.out.println(" Player Level Up");
+			//System.out.println("xpToLevelUp : " +xpToLevelUp + " xp : " + xp + " attackPower : "+ attackPower);
+		}else {
+			System.out.println("Cant level Up, need more " + (xpToLevelUp-xp) +" xp");
+		}
+		attackTimer = 0;
+	}
+
 	//Getters && Setters
-	
+
 	public int getAttackPower() {
 		return attackPower;
+	}
+
+	public boolean isLevelUp() {
+		return levelUp;
+	}
+
+	public void setLevelUp(boolean levelUp) {
+		this.levelUp = levelUp;
 	}
 
 	public void setAttackPower(int attackPower) {
@@ -228,4 +263,12 @@ public class Player extends Creature {
 		this.inventory = inventory;
 	}
 
-}
+	public int getXp() {
+		return xp;
+	}
+
+	public void setXp(int xp) {
+		this.xp = xp;
+	}
+
+}// Player
