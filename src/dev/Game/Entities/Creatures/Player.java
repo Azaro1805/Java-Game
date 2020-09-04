@@ -214,7 +214,7 @@ public class Player extends Creature {
 	}
 
 	public void PossibleTolevelUp() {
-		if( xpToLevelUp == xp) 
+		if( xpToLevelUp <= xp) 
 			levelUp = true;
 	}
 
@@ -227,7 +227,7 @@ public class Player extends Creature {
 		if(levelUp && clickL == 1) {
 			levelUp = false;
 			xpToLevelUp += 2 ;
-			xp = 0 ;
+			xp = xp-xpToLevelUp;
 			attackPower ++;
 			System.out.println(" Player Level Up");
 			//System.out.println("xpToLevelUp : " +xpToLevelUp + " xp : " + xp + " attackPower : "+ attackPower);
