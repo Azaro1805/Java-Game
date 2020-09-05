@@ -178,6 +178,15 @@ public class Game implements Runnable {
 	public int getHeight() {
 		return height;
 	}
+
+	public Graphics getG() {
+		return g;
+	}
+
+	public void setG(Graphics g) {
+		this.g = g;
+	}
+	
 	
 }//Game
 
