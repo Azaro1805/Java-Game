@@ -16,6 +16,8 @@ public abstract class Entity {
 	protected int health;
 	protected boolean active = true, player = false;
 
+	// Attack Timers
+	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 
 	public Entity(Handler handler, float x, float y,  int width, int height ) {
 		this.handler = handler;
@@ -27,7 +29,7 @@ public abstract class Entity {
 		bounds =  new Rectangle(0, 0, width, height);
 
 	}
-	
+
 	public Entity(Handler handler, float x, float y,  int width, int height, int health) {
 		this.handler = handler;
 		this.x = x;
@@ -60,11 +62,20 @@ public abstract class Entity {
 
 	public abstract void die();
 
-
+// אולי להוסיף לפה את האנימציה ? עם גרפיק הצלחתי לעצור אבל זה עוצר הכל ..
+	
 	public void hurt(int amt) {
 		health -= amt;
 		if(health <= 0 ) {
 			die();
+
+			/*boolean die = true;
+			attackTimer = System.currentTimeMillis();
+			while (die) {
+				if(attackTimer+10000 < System.currentTimeMillis())
+					die = false;
+			}
+			*/
 			active = false;
 		}
 	}
