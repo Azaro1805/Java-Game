@@ -6,6 +6,7 @@ import dev.Game.Handler;
 import dev.Game.Entities.EntityManager;
 import dev.Game.Entities.Creatures.Enemy;
 import dev.Game.Entities.Creatures.Player;
+import dev.Game.Entities.Creatures.PlayerBarControl;
 import dev.Game.Entities.Statics.Tree;
 import dev.Game.Entities.Statics.Tree2;
 import dev.Game.Entities.Statics.Tree3;
@@ -36,6 +37,8 @@ public class World {
 		entityManager.addEntity(new Tree3(handler, 100, 450));
 		//entityManager.addEntity(new Enemy(handler, 200, 200, 5 , 1));
 		entityManager.addEntity(new Enemy(handler, 150, 150, 5 , 1));
+		//entityManager.addEntity(new PlayerBarControl(handler, 0, 0, 202 , 72, this.getEntityManager().getPlayer()));
+
 
 		loadWorld(path);
 		
@@ -93,6 +96,7 @@ public class World {
 		 for (int y=0 ; y<height; y++) {
 			 for(int x=0; x<width; x++) {
 				 mapTiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]); // add 4 = (width,height,spawns)
+				 
 			 }
 		 }
 
