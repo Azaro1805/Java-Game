@@ -28,8 +28,8 @@ public class Enemy extends Creature {
 		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2 );
 
 		//Animation
-		animRight = new Animation(100, Assets.player_right);
-		animLeft = new Animation(100, Assets.player_left);
+		animRight = new Animation(100, Assets.Enemy_right);
+		animLeft = new Animation(100, Assets.Enemy_left);
 		animUd = new Animation(100, Assets.player_ud);
 		animStand = new Animation(1000, Assets.player_Stand);
 		animStandLeft = new Animation(1000, Assets.player_StandL);
@@ -44,8 +44,8 @@ public class Enemy extends Creature {
 		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2, health);
 
 		//Animation
-		animRight = new Animation(100, Assets.player_right);
-		animLeft = new Animation(100, Assets.player_left);
+		animRight = new Animation(100, Assets.Enemy_right);
+		animLeft = new Animation(100, Assets.Enemy_left);
 		animUd = new Animation(100, Assets.player_ud);
 		animStand = new Animation(1000, Assets.player_Stand);
 		animStandLeft = new Animation(1000, Assets.player_StandL);
@@ -60,15 +60,15 @@ public class Enemy extends Creature {
 		super(handler, x, y, Creature.DEFAULT_WIDTH, Creature.DEFAULT_HEIGHT*2, health);
 
 		//Animation
-		animRight = new Animation(100, Assets.player_right);
-		animLeft = new Animation(100, Assets.player_left);
-		animUd = new Animation(100, Assets.player_ud);
-		animStand = new Animation(1000, Assets.player_Stand);
-		animStandLeft = new Animation(1000, Assets.player_StandL);
-		animAttackRight = new Animation(100, Assets.player_attackRight);
-		animAttackLeft = new Animation(100, Assets.player_attackLeft);
-		animDie = new Animation(350, Assets.player_Die); // need to graphics improved
-		animHurt = new Animation(100, Assets.player_Hurt);
+		animRight = new Animation(100, Assets.Enemy_right);
+		animLeft = new Animation(100, Assets.Enemy_left);
+		animUd = new Animation(100, Assets.Enemy_ud);
+		animStand = new Animation(1000, Assets.Enemy_Stand);
+		animStandLeft = new Animation(1000, Assets.Enemy_StandL);
+		animAttackRight = new Animation(100, Assets.Enemy_attackRight);
+		animAttackLeft = new Animation(100, Assets.Enemy_attackLeft);
+		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
+		animHurt = new Animation(100, Assets.Enemy_Hurt);
 		this.attackPower = attackPower;
 	}
 
@@ -84,7 +84,7 @@ public class Enemy extends Creature {
 		animAttackRight.tick();
 		animAttackLeft.tick();
 		animDie.tick();
-		animHurt.tick();
+		//animHurt.tick();
 
 		//Movement
 		getInput();
@@ -131,7 +131,7 @@ public class Enemy extends Creature {
 			if(e.getCollisionBounds(0, 0).intersects(ar)) {// attackPower - how much damage the player deal
 				if(e.isPlayer()) {
 					e.hurt(attackPower);
-					System.out.println("Enemy hurt me " + attackPower);
+					System.out.println("Enemy hurt me, I lost " + attackPower + " hp");
 				}
 				return;				
 			}
@@ -170,8 +170,10 @@ public class Enemy extends Creature {
 
 	@Override
 	public void render(Graphics g) {
+		if(die)
+			g.drawImage(animDie.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-
+		
 
 
 		//	g.setColor(Color.red);
@@ -218,7 +220,6 @@ public class Enemy extends Creature {
 
 	@Override
 	public void die() {
-		animDie.getCurrentFrame();
 		die = true;
 		System.out.println("Enemy killed");
 
