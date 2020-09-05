@@ -8,6 +8,7 @@ public class Assets {
 	// the size of every one tile
 	private static final int width=35 , height =35;
 	private static final int widthPlayer=40 , heightPlayer =70;
+	private static final int widthEnemy=56 , heightEnemy =77;
 
 	public static Font font28, font48;
 
@@ -16,12 +17,18 @@ public class Assets {
 	public static BufferedImage [] player_attackLeft, player_attackRight, player_Hurt, player_Die;
 	public static BufferedImage [] btn_start;
 	public static BufferedImage  inventoryScreen;
+	public static BufferedImage [] Enemy_left, Enemy_right, Enemy_ud, Enemy_Stand, Enemy_StandL;
+	public static BufferedImage [] Enemy_attackLeft, Enemy_attackRight, Enemy_Hurt, Enemy_Die;
+
+
 
 
 	public static void init () {
 		SpriteSheet sheet = new SpriteSheet (ImageLoader.loadImage("/textures/objects22.png"));
 		SpriteSheet sheetPlayer = new SpriteSheet (ImageLoader.loadImage("/textures/PlayerObjects.png"));
 		SpriteSheet button_menu = new SpriteSheet (ImageLoader.loadImage("/textures/menu.png"));
+		SpriteSheet sheetEnemy = new SpriteSheet (ImageLoader.loadImage("/textures/EnemyObjects.png"));
+
 
 		
 		
@@ -96,6 +103,57 @@ public class Assets {
 		player_Hurt [2] =  sheetPlayer.crop(2*widthPlayer, 8*heightPlayer, widthPlayer, heightPlayer);
 		player_Hurt [3] =  sheetPlayer.crop(3*widthPlayer, 8*heightPlayer, widthPlayer, heightPlayer); 
 
+
+		//Enemy movement
+		Enemy_right = new BufferedImage[3];
+		Enemy_right[0] = sheetEnemy.crop(0, 0, widthEnemy, heightEnemy); 
+		Enemy_right[1] = sheetEnemy.crop(widthEnemy, 0, widthEnemy, heightEnemy);
+		Enemy_right[2] = sheetEnemy.crop(2*widthEnemy, 0, widthEnemy, heightEnemy); 
+
+		Enemy_left = new BufferedImage[3];
+		Enemy_left[0] = sheetEnemy.crop(2*widthEnemy, heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_left[1] = sheetEnemy.crop(1*widthEnemy, heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_left[2] = sheetEnemy.crop(0, heightEnemy, widthEnemy, heightEnemy); 
+		
+		Enemy_ud = new BufferedImage[3];
+		Enemy_ud[0] = sheetEnemy.crop(0, 0, widthEnemy, heightEnemy); 
+		Enemy_ud[1] = sheetEnemy.crop(widthEnemy, 0, widthEnemy, heightEnemy);
+		Enemy_ud[2] = sheetEnemy.crop(2*widthEnemy, 0, widthEnemy, heightEnemy);  
+
+		Enemy_Stand = new BufferedImage[2];
+		Enemy_Stand[0] = sheetEnemy.crop(0, 2*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Stand[1] = sheetEnemy.crop(widthEnemy, 2*heightEnemy, widthEnemy, heightEnemy);
+
+		Enemy_StandL = new BufferedImage[2];
+		Enemy_StandL[0] = sheetEnemy.crop(0, 3*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_StandL[1] = sheetEnemy.crop(widthEnemy, 3*heightEnemy, widthEnemy, heightEnemy);
+
+		//Enemy Combat
+		Enemy_attackRight = new BufferedImage[3];
+		Enemy_attackRight[0] = sheetEnemy.crop(0, 4*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_attackRight[1] = sheetEnemy.crop(widthEnemy, 4*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_attackRight[2] = sheetEnemy.crop(2*widthEnemy, 4*heightEnemy, widthEnemy, heightEnemy); 
+
+		Enemy_attackLeft = new BufferedImage[3];
+		Enemy_attackLeft[0] = sheetEnemy.crop(2*widthEnemy, 5*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_attackLeft[1] = sheetEnemy.crop(1*widthEnemy, 5*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_attackLeft[2] = sheetEnemy.crop(0, 5*heightEnemy, widthEnemy, heightEnemy); 
+
+		Enemy_Die = new BufferedImage[7];
+		Enemy_Die [0] = sheetEnemy.crop(0, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [1] = sheetEnemy.crop(widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [2] = sheetEnemy.crop(2*widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [3] = sheetEnemy.crop(3*widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [4] = sheetEnemy.crop(4*widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [5] = sheetEnemy.crop(5*widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+		Enemy_Die [6] = sheetEnemy.crop(6*widthEnemy, 7*heightEnemy, widthEnemy, heightEnemy); 
+
+		/*Enemy_Hurt = new BufferedImage[4];
+		player_Hurt [0] =  sheetPlayer.crop(0, 8*heightPlayer, widthPlayer, heightPlayer); 
+		player_Hurt [1] =  sheetPlayer.crop(widthPlayer, 8*heightPlayer, widthPlayer, heightPlayer); 
+		player_Hurt [2] =  sheetPlayer.crop(2*widthPlayer, 8*heightPlayer, widthPlayer, heightPlayer);
+		player_Hurt [3] =  sheetPlayer.crop(3*widthPlayer, 8*heightPlayer, widthPlayer, heightPlayer); 
+		*/
 		
 		//Static entity
 		stump = sheet.crop(0, 0, width, height);
