@@ -19,6 +19,7 @@ public class Assets {
 	public static BufferedImage  inventoryScreen;
 	public static BufferedImage [] Enemy_left, Enemy_right, Enemy_ud, Enemy_Stand, Enemy_StandL;
 	public static BufferedImage [] Enemy_attackLeft, Enemy_attackRight, Enemy_Hurt, Enemy_Die;
+	public static BufferedImage [] bars;
 
 
 
@@ -28,6 +29,7 @@ public class Assets {
 		SpriteSheet sheetPlayer = new SpriteSheet (ImageLoader.loadImage("/textures/PlayerObjects.png"));
 		SpriteSheet button_menu = new SpriteSheet (ImageLoader.loadImage("/textures/menu.png"));
 		SpriteSheet sheetEnemy = new SpriteSheet (ImageLoader.loadImage("/textures/EnemyObjects.png"));
+		SpriteSheet sheetBars = new SpriteSheet (ImageLoader.loadImage("/textures/bar.png"));
 
 
 		
@@ -171,6 +173,10 @@ public class Assets {
 		font28 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 28);
 		font48 = FontLoader.loadFont("res/Fonts/slkscr.ttf", 48);
 		inventoryScreen = ImageLoader.loadImage("/textures/inventoryScreen2.png");
+		
+		//Bars
+		bars = new BufferedImage[1];
+		bars [0] = sheetBars.crop(0,0, 202, 74); 
 		
 	}
 
