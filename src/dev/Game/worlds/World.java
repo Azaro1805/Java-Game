@@ -34,8 +34,8 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 100, 250));
 		entityManager.addEntity(new Tree2(handler, 100, 350));
 		entityManager.addEntity(new Tree3(handler, 100, 450));
-		entityManager.addEntity(new Enemy(handler, 200, 200, 5 , 1));
-		entityManager.addEntity(new Enemy(handler, 300, 300, 5 , 1));
+		//entityManager.addEntity(new Enemy(handler, 200, 200, 5 , 1));
+		entityManager.addEntity(new Enemy(handler, 150, 150, 5 , 1));
 
 		loadWorld(path);
 		
