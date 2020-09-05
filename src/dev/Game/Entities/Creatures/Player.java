@@ -271,4 +271,14 @@ public class Player extends Creature {
 		this.xp = xp;
 	}
 
+	public int getXpToLevelUp() {
+		return xpToLevelUp;
+	}
+
+	public void setXpToLevelUp(int xpToLevelUp) {
+		this.xpToLevelUp = xpToLevelUp;
+	}
+
+	
+	
 }// Player
