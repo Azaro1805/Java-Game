@@ -6,7 +6,7 @@ public class Launcher {
 
 	public static void main (String[] args) {
 		
-		Game game = new Game("Or Game!" , 800 , 500 );
+		Game game = new Game("Or Game!" , 900 , 600 );
 		game.start();
 	}// main
 	
