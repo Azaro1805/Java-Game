@@ -90,7 +90,7 @@ public class Enemy extends Creature {
 		//Movement
 		getInput();
 		move();
-		handler.getGameCamera().ceterCamrea(this);
+		//handler.getGameCamera().ceterCamrea(this);
 
 		//Attack
 		checkAttack();
@@ -109,17 +109,17 @@ public class Enemy extends Creature {
 		ar.width = arSize;
 
 		if(handler.getKeyManager().aUp ) { // || handler.getKeyManager().c for all
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.x = cb.x + cb.width / 2 - arSize / 2 ;
 			ar.y = cb.y - arSize;
 		}else if(handler.getKeyManager().aDown) { 
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.x = cb.x + cb.width / 2 - arSize / 2 ;
 			ar.y = cb.y + cb.height;
 		}else if(handler.getKeyManager().aRight) {
 			ar.x = cb.x - arSize;
-			ar.y = cb.y + cb.height / 2 - arSize / 2;
+			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}else if(handler.getKeyManager().aLeft) {
 			ar.x = cb.x +  cb.width;
-			ar.y = cb.y + cb.height / 2 - arSize / 2;
+			ar.y = cb.y + cb.height / 2 - arSize / 2 ;
 		}else {
 			return;
 		}
@@ -150,13 +150,13 @@ public class Enemy extends Creature {
 		aDown = 0;
 
 		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
-			yMove = -speed;
+			yMove = -speed +1;
 		if (handler.getKeyManager().down ) //|| handler.getKeyManager().downs)
-			yMove = speed;
+			yMove = speed -1;
 		if (handler.getKeyManager().right ) // || handler.getKeyManager().rightd)
-			xMove = speed;
+			xMove = speed -1;
 		if (handler.getKeyManager().left ) //|| handler.getKeyManager().lefta)
-			xMove = -speed;
+			xMove = -speed +1 ;
 		if(handler.getKeyManager().aRight) 
 			aRight ++;
 		if(handler.getKeyManager().aLeft) 
@@ -174,7 +174,9 @@ public class Enemy extends Creature {
 		//if(die)
 			//g.drawImage(animDie.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 		g.drawImage(getCurrentInamationFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-		
+		//if(health == 1)
+			// handler.getWorld().getEntityManager().addEntity(new Enemy(handler, x+300, y+150, 5 , 1));
+
 
 
 		//	g.setColor(Color.red);
@@ -224,8 +226,8 @@ public class Enemy extends Creature {
 		die = true;
 		System.out.println("Enemy killed");
 		// doesn't do anything	
-		 handler.getGame().getG().drawImage(animDie.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-		
+		 //handler.getGame().getG().drawImage(animDie.getCurrentFrame(), (int) (x - handler.getGameCamera().getxOffset()) , (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+
 			
 		
 	}
