@@ -8,6 +8,7 @@ import dev.Game.gfx.Assets;
 import dev.Game.gfx.GameCamera;
 import dev.Game.input.KeyManager;
 import dev.Game.input.MouseManager;
+import dev.Game.states.GameOverState;
 import dev.Game.states.GameState;
 import dev.Game.states.MenuState;
 import dev.Game.states.State;
@@ -30,6 +31,8 @@ public class Game implements Runnable {
 	//States
 	public State gameState;
 	public State menuState;
+	public State gameOverState;
+
 
 	//input
 	private KeyManager keyManager;
@@ -66,6 +69,8 @@ public class Game implements Runnable {
 		gameState = new GameState(handler); 
 		State.setState(gameState);
 		menuState = new MenuState(handler); 
+		State.setState(menuState);
+		gameOverState = new GameOverState(handler); 
 		//State.setState(menuState);
 	}
 
@@ -159,6 +164,13 @@ public class Game implements Runnable {
 		}
 	}//stop
 
+
+	public void setState( State state ) {
+		State.setState(state);
+	}
+	
+	//Setters & Getters
+
 	public KeyManager getKeyManager() {
 		return keyManager;
 	}
@@ -185,6 +197,22 @@ public class Game implements Runnable {
 
 	public void setG(Graphics g) {
 		this.g = g;
+	}
+
+	public State getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(State gameState) {
+		this.gameState = gameState;
+	}
+
+	public State getGameOverState() {
+		return gameOverState;
+	}
+
+	public void setGameOverState(State gameOverState) {
+		this.gameOverState = gameOverState;
 	}
 	
 	
