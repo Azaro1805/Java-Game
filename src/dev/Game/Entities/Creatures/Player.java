@@ -16,13 +16,13 @@ public class Player extends Creature {
 	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft,
 	animDie, animHurt;
 	private boolean switchSide = false, levelUp = false;
-	private int aRight, aLeft, aUp, aDown, xp, xpToLevelUp, clickL;
+	private int aRight, aLeft, aUp, aDown, xp, xpToLevelUp, clickL, maxHealth;
 
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 
 	// attackCooldown  - cooldown between attacks in ms;
-	private int attackPower = 5;
+	private int attackPower = 1;
 
 	//Inventory
 	private Inventory inventory;
@@ -32,6 +32,7 @@ public class Player extends Creature {
 		this.setIfPlayer(true);
 		this.xp = 4;
 		this.xpToLevelUp = 5;
+		this.maxHealth = health;
 		//bounds.x = 0; //17
 		//bounds.y = 35;
 		//bounds.width = 35;
@@ -207,6 +208,7 @@ public class Player extends Creature {
 	@Override
 	public void die() {
 		System.out.println("You Lose");
+		handler.getGame().setState(handler.getGame().gameOverState);
 	}
 
 	public void postRender(Graphics g) {
@@ -225,11 +227,13 @@ public class Player extends Creature {
 			return;
 		
 		if(levelUp && clickL == 1) {
+			setHealth(maxHealth+1);
+			System.out.println("Player Health :" + getHealth());
 			levelUp = false;
 			xpToLevelUp += 2 ;
 			xp = xp-xpToLevelUp;
 			attackPower ++;
-			System.out.println(" Player Level Up");
+			System.out.println("Player Level Up");
 			//System.out.println("xpToLevelUp : " +xpToLevelUp + " xp : " + xp + " attackPower : "+ attackPower);
 		}else {
 			System.out.println("Cant level Up, need more " + (xpToLevelUp-xp) +" xp");
