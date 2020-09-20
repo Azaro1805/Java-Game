@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.Game.Handler;
 import dev.Game.Entities.EntityManager;
+import dev.Game.Entities.Creatures.Boss;
 import dev.Game.Entities.Creatures.Enemy;
 import dev.Game.Entities.Creatures.Player;
 import dev.Game.Entities.Creatures.PlayerBarControl;
@@ -35,10 +36,11 @@ public class World {
 		entityManager.addEntity(new Tree(handler, 100, 250));
 		entityManager.addEntity(new Tree2(handler, 100, 350));
 		entityManager.addEntity(new Tree3(handler, 100, 450));
-		//entityManager.addEntity(new Enemy(handler, 200, 200, 5 , 1));
-		entityManager.addEntity(new Enemy(handler, 150, 150, 5 , 1));
-		//entityManager.addEntity(new PlayerBarControl(handler, 0, 0, 202 , 72, this.getEntityManager().getPlayer()));
+		entityManager.addEntity(new Enemy(handler, 150, 150, 2 , 1));
+		entityManager.addEntity(new Enemy(handler, 250, 250, 2 , 1));
+		entityManager.addEntity(new Boss(handler, 500, 500, 10 , 5));
 
+		//entityManager.addEntity(new PlayerBarControl(handler, this.getHandler().getGameCamera().getxOffset(), this.getHandler().getGameCamera().getyOffset(), 202 , 72, this.getEntityManager().getPlayer()));
 
 		loadWorld(path);
 		
