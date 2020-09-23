@@ -9,7 +9,7 @@ public class KeyManager implements KeyListener {
 	public boolean up, down, left, right ; //movement control arrows
 	public boolean upw, downs, lefta, rightd; //movement control2 wasd
 	public boolean aUp, aDown, aRight, aLeft, c; //attack control (using wasd)
-	public boolean clickL ; //other control
+	public boolean clickL , clickP ; //other control
 	
 	public KeyManager () {
 		keys = new boolean[256];
@@ -49,6 +49,7 @@ public class KeyManager implements KeyListener {
 		aRight = keys[KeyEvent.VK_D];
 		c = keys[KeyEvent.VK_C];
 		clickL = keys[KeyEvent.VK_L];
+		clickP = keys[KeyEvent.VK_P];
 	}
 
 	@Override
