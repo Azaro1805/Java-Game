@@ -14,7 +14,7 @@ public abstract class Entity {
 	protected int width, height;
 	protected Rectangle bounds ;
 	protected int health;
-	protected boolean active = true, player = false;
+	protected boolean active = true, player = false , enemy = false;
 
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
@@ -131,10 +131,17 @@ public abstract class Entity {
 	public boolean isPlayer() {
 		return player;
 	}
+	
+	public boolean isEnemy() {
+		return enemy;
+	}
 
 	public void setIfPlayer(boolean player) {
 		this.player = player;
 	}
 
-
+	public void setIfEnemy(boolean enemy) {
+		this.enemy = enemy;
+	}
+	
 }//Entity
