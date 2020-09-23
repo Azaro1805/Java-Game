@@ -69,9 +69,8 @@ public class Game implements Runnable {
 		gameState = new GameState(handler); 
 		State.setState(gameState);
 		menuState = new MenuState(handler); 
-		State.setState(menuState);
-		gameOverState = new GameOverState(handler); 
 		//State.setState(menuState);
+		gameOverState = new GameOverState(handler); 
 	}
 
 	private void tick() {
@@ -133,7 +132,7 @@ public class Game implements Runnable {
 
 			if (timer >= 1000000000 ) {
 				
-				System.out.println("Ticks and Frames / fps :" + ticks);
+				//System.out.println("Ticks and Frames / fps :" + ticks);
 				ticks=0;
 				timer=0;
 			}
