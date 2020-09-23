@@ -8,9 +8,11 @@ import dev.Game.Entities.Creatures.Boss;
 import dev.Game.Entities.Creatures.Enemy;
 import dev.Game.Entities.Creatures.Player;
 import dev.Game.Entities.Creatures.PlayerBarControl;
+import dev.Game.Entities.Statics.Cave;
 import dev.Game.Entities.Statics.Tree;
 import dev.Game.Entities.Statics.Tree2;
 import dev.Game.Entities.Statics.Tree3;
+import dev.Game.items.Item;
 import dev.Game.items.ItemManager;
 import dev.Game.tiles.Tile;
 import dev.Game.utils.Utils;
@@ -38,7 +40,9 @@ public class World {
 		entityManager.addEntity(new Tree3(handler, 100, 450));
 		entityManager.addEntity(new Enemy(handler, 150, 150, 2 , 1));
 		entityManager.addEntity(new Enemy(handler, 250, 250, 2 , 1));
-		entityManager.addEntity(new Boss(handler, 500, 500, 10 , 5));
+		entityManager.addEntity(new Boss(handler, 1200, 300, 10 , 5));
+		entityManager.addEntity(new Cave(handler, 1155, 70));
+
 
 		//entityManager.addEntity(new PlayerBarControl(handler, this.getHandler().getGameCamera().getxOffset(), this.getHandler().getGameCamera().getyOffset(), 202 , 72, this.getEntityManager().getPlayer()));
 
@@ -134,5 +138,17 @@ public class World {
 		return entityManager;
 	}
 	
+	/*public int getNumberOf (Item countItem) {
+		System.out.println("enter");
+		
+		for( Item i : itemManager.getItems()) {
+			System.out.println("i = " +  i + "countItem =" + countItem );
+			if(i == countItem) {
+				return i.getCount();
+			}
+		}
+		System.out.println("close");
+		return 50;
+	}*/
 	
 	}//World
