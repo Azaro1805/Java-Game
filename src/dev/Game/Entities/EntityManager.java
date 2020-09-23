@@ -37,8 +37,10 @@ public class EntityManager {
 			e.tick();
 			if(!e.isActive()) {
 				it.remove();
-				getPlayer().setXp(player.getXp() + 1);
-				System.out.println("Player XP : " + getPlayer().getXp());
+				if(e.isEnemy()) {
+					getPlayer().setXp(player.getXp() + 1);
+					System.out.println("Player XP : " + getPlayer().getXp());
+				}
 			}
 		}
 		entities.sort(renderSorter);
@@ -79,6 +81,6 @@ public class EntityManager {
 		this.entities = entities;
 	}
 
-	
+
 
 }//EntityManager
