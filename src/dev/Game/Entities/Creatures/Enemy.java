@@ -38,6 +38,8 @@ public class Enemy extends Creature {
 		animAttackLeft = new Animation(100, Assets.Enemy_attackLeft);
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
+		
+		this.setIfEnemy(true);
 
 	}
 
@@ -55,6 +57,8 @@ public class Enemy extends Creature {
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
 
+		this.setIfEnemy(true);
+
 	}
 
 	public Enemy( Handler handler ,float x, float y, int health , int attackPower ) {
@@ -71,6 +75,9 @@ public class Enemy extends Creature {
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
 		this.attackPower = attackPower;
+		
+		this.setIfEnemy(true);
+
 	}
 
 	@Override
