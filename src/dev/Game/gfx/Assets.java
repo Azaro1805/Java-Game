@@ -12,7 +12,8 @@ public class Assets {
 
 	public static Font font28, font48;
 
-	public static BufferedImage player, dirt, grass, stone, tree, stump, rock, timber, tree2, tree3;	
+	public static BufferedImage player, dirt, grass, stone, tree, stump, rock, timber, tree2, tree3;
+	public static BufferedImage cave;
 	public static BufferedImage [] player_left, player_right, player_ud, player_Stand, player_StandL;
 	public static BufferedImage [] player_attackLeft, player_attackRight, player_Hurt, player_Die;
 	public static BufferedImage [] btn_start;
@@ -166,6 +167,7 @@ public class Assets {
 		timber = sheet.crop(5*width, 0, width, height);
 		tree2 = sheet.crop(6*width, 0, width, 2*height);
 		tree3 = sheet.crop(7*width, 0, width, 2*height);
+		cave =  sheet.crop(284, 0, 173, 140);
 
 		//player = sheetPlayer.crop(0, 0, widthPlayer, heightPlayer);
 
