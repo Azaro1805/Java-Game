@@ -9,15 +9,18 @@ import dev.Game.Entities.Entity;
 import dev.Game.gfx.Animation;
 import dev.Game.gfx.Assets;
 import dev.Game.inventory.Inventory;
+import dev.Game.items.Item;
 
 public class Player extends Creature {
 
 	//Animation
 	private Animation animRight, animLeft, animUd, animStand, animAttackRight, animStandLeft, animAttackLeft,
 	animDie, animHurt;
-	private boolean switchSide = false, levelUp = false;
-	private int aRight, aLeft, aUp, aDown, xp, xpToLevelUp, clickL, maxHealth;
+	private boolean switchSide = false, levelUp = false, ATTlevelUp = false;;
+	private int aRight, aLeft, aUp, aDown, xp, xpToLevelUp, clickL, maxHealth, woodATT, stoneATT, wood, stone;
+	private int clickP;
 
+	
 	// Attack Timers
 	private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
 
@@ -33,6 +36,8 @@ public class Player extends Creature {
 		this.xp = 4;
 		this.xpToLevelUp = 5;
 		this.maxHealth = health;
+		this.stoneATT = 1;
+		this.woodATT = 1;
 		//bounds.x = 0; //17
 		//bounds.y = 35;
 		//bounds.width = 35;
@@ -76,6 +81,11 @@ public class Player extends Creature {
 			levelUp();
 		}
 
+		if(clickP == 1) { // attack power level-up process
+			PossibleAttackTolevelUp();
+			attackLevelUp();
+		}
+		
 		//Attack
 		checkAttack();
 
@@ -135,6 +145,7 @@ public class Player extends Creature {
 		aUp = 0;
 		aDown = 0;
 		clickL = 0;
+		clickP = 0;
 
 		if (inventory.isActive())
 			return;
@@ -157,6 +168,8 @@ public class Player extends Creature {
 			aDown++;
 		if (handler.getKeyManager().clickL) 
 			clickL++;
+		if (handler.getKeyManager().clickP) 
+			clickP++;
 
 	}
 
@@ -219,6 +232,13 @@ public class Player extends Creature {
 		if( xpToLevelUp <= xp) 
 			levelUp = true;
 	}
+	
+	public void PossibleAttackTolevelUp() {
+		wood = inventory.getNumberOf(0);
+		stone = inventory.getNumberOf(1);
+		if( wood >= woodATT && stone >= stoneATT) 
+			ATTlevelUp = true;
+	}
 
 	public void levelUp() {
 		attackTimer += System.currentTimeMillis() - lastAttackTimer;
@@ -237,6 +257,22 @@ public class Player extends Creature {
 			//System.out.println("xpToLevelUp : " +xpToLevelUp + " xp : " + xp + " attackPower : "+ attackPower);
 		}else {
 			System.out.println("Cant level Up, need more " + (xpToLevelUp-xp) +" xp");
+		}
+		attackTimer = 0;
+	}
+	
+	public void attackLevelUp() {
+		attackTimer += System.currentTimeMillis() - lastAttackTimer;
+		lastAttackTimer = System.currentTimeMillis();
+		if (attackTimer < (attackCooldown+100)) // return if the player try to click level up too fast (nothing happen)
+			return;
+		
+		if (ATTlevelUp) {
+			ATTlevelUp = false;
+			inventory.removeItem(1);
+			inventory.removeItem(0);
+			attackPower++;
+			System.out.println("attack power level Up, attack power:" + attackPower);
 		}
 		attackTimer = 0;
 	}
