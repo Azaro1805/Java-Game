@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import dev.Game.Handler;
 import dev.Game.gfx.Assets;
 import dev.Game.gfx.Text;
@@ -34,8 +36,7 @@ public class Inventory {
 		this.handler = handler;
 		inventoryItems =  new ArrayList<Item>();
 
-		//addItem(Item.Wood.createNew(1));
-		addItem(Item.Rock.createNew(5));
+		addItem(Item.Wood.createNew(1));
 		addItem(Item.Rock.createNew(5));
 
 	}
@@ -93,12 +94,24 @@ public class Inventory {
 
 		for(Item i : inventoryItems){
 			if(i.getId() == item.getId()){
-					i.setCount(i.getCount() + item.getCount());
-					return;
-				
+				i.setCount(i.getCount() + item.getCount());
+				return;
+
 			}
 		}
 		inventoryItems.add(item);
+	}
+
+	public void removeItem(int id){
+
+		for(Item i : inventoryItems){
+			if(i.getId() == id){
+				i.setCount(i.getCount() -1);
+				if(i.getId() == 0) 
+					inventoryItems.remove(i);
+				return;
+			}
+		}
 	}
 
 	//Getters && Setters
@@ -115,6 +128,15 @@ public class Inventory {
 		return active;
 	}
 
+	public int getNumberOf (int id) {
 
+		for( Item i : inventoryItems) {
+			//System.out.println("i = " +  i + "countItem =" + countItem );
+			if(i.getId() == id) {
+				return i.getCount();
+			}
+		}
+		return 0;
+	}
 
 }// Inventory
