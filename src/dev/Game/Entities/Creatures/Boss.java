@@ -39,6 +39,8 @@ public class Boss extends Creature {
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
 
+		this.setIfEnemy(true);
+
 	}
 
 	public Boss( Handler handler ,float x, float y, int health ) {
@@ -54,6 +56,8 @@ public class Boss extends Creature {
 		animAttackLeft = new Animation(100, Assets.Enemy_attackLeft);
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
+
+		this.setIfEnemy(true);
 
 	}
 
@@ -71,6 +75,9 @@ public class Boss extends Creature {
 		animDie = new Animation(350, Assets.Enemy_Die); // need to graphics improved
 		animHurt = new Animation(100, Assets.Enemy_Hurt);
 		this.attackPower = attackPower;
+		
+		this.setIfEnemy(true);
+
 	}
 
 	@Override
@@ -149,10 +156,7 @@ public class Boss extends Creature {
 		aUp = 0;
 		aDown = 0;
 
-		if (handler.getKeyManager().up ) //|| handler.getKeyManager().upw )
-			yMove = -speed +1;
-		if (handler.getKeyManager().down ) //|| handler.getKeyManager().downs)
-			yMove = speed -1;
+		
 		if (handler.getKeyManager().right ) // || handler.getKeyManager().rightd)
 			xMove = speed -1;
 		if (handler.getKeyManager().left ) //|| handler.getKeyManager().lefta)
