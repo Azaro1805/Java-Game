@@ -20,7 +20,7 @@ public class Inventory {
 
 	//inventory size screen
 	private int invX = 64, invY= 48,  
-			invWidth = 512, invHeight = 384,
+			invWidth = 700, invHeight = 384,
 			invListCenterX = invX + 171,
 			invListCenterY = invY + invHeight / 2 + 5,
 			invListSpacing = 30;
@@ -75,7 +75,7 @@ public class Inventory {
 				continue;
 			if(i == 0){
 				Text.drawString(g, "> " + inventoryItems.get(selectedItem + i).getName() + " <", invListCenterX, 
-						invListCenterY + i * invListSpacing, true, Color.YELLOW, Assets.font28);
+						invListCenterY + i * invListSpacing, true, Color.DARK_GRAY, Assets.font28);
 			}else{
 				Text.drawString(g, inventoryItems.get(selectedItem + i).getName(), invListCenterX, 
 						invListCenterY + i * invListSpacing, true, Color.WHITE, Assets.font28);
@@ -85,6 +85,13 @@ public class Inventory {
 		Item item = inventoryItems.get(selectedItem);
 		g.drawImage(item.getTexture(), invImageX, invImageY, invImageWidth, invImageHeight, null);
 		Text.drawString(g, Integer.toString(item.getCount()), invCountX, invCountY, true, Color.WHITE, Assets.font28);
+		
+		//player stats
+		Text.drawString(g, "Player Stats :", invCountX+85, invCountY+60, true, Color.WHITE, Assets.font28);
+		Text.drawString(g, "Attack Power : "+Integer.toString(handler.getWorld().getEntityManager().getPlayer().getAttackPower()), invCountX+85, invCountY+100, true, Color.yellow, Assets.font28);
+		Text.drawString(g, "HP : "+Integer.toString(handler.getWorld().getEntityManager().getPlayer().getHealth()), invCountX+65, invCountY+140, true, Color.RED, Assets.font28);
+		Text.drawString(g, "XP : "+Integer.toString(handler.getWorld().getEntityManager().getPlayer().getXp()), invCountX+65, invCountY+180, true, Color.BLUE, Assets.font28);
+
 		//Text.drawString(g, "> Rock <", invListCenetrX, invListCenetrY, true, Color.white, Assets.font28);
 	}
 
