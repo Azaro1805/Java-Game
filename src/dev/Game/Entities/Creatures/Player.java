@@ -250,8 +250,8 @@ public class Player extends Creature {
 			setHealth(maxHealth+1);
 			System.out.println("Player Health :" + getHealth());
 			levelUp = false;
-			xpToLevelUp += 2 ;
 			xp = xp-xpToLevelUp;
+			xpToLevelUp += 2 ;
 			attackPower ++;
 			System.out.println("Player Level Up");
 			//System.out.println("xpToLevelUp : " +xpToLevelUp + " xp : " + xp + " attackPower : "+ attackPower);
