@@ -13,17 +13,12 @@ public class Assets {
 	public static Font font28, font48;
 
 	public static BufferedImage player, dirt, grass, stone, tree, stump, rock, timber, tree2, tree3;
-	public static BufferedImage cave;
+	public static BufferedImage cave, inventoryScreen, MenuScreen, GameOverScreen;
 	public static BufferedImage [] player_left, player_right, player_ud, player_Stand, player_StandL;
-	public static BufferedImage [] player_attackLeft, player_attackRight, player_Hurt, player_Die;
-	public static BufferedImage [] btn_start;
-	public static BufferedImage  inventoryScreen;
+	public static BufferedImage [] player_attackLeft, player_attackRight, player_Hurt, player_Die, btn_start;
 	public static BufferedImage [] Enemy_left, Enemy_right, Enemy_ud, Enemy_Stand, Enemy_StandL;
-	public static BufferedImage [] Enemy_attackLeft, Enemy_attackRight, Enemy_Hurt, Enemy_Die;
-	public static BufferedImage [] bars;
-
-
-
+	public static BufferedImage [] Enemy_attackLeft, Enemy_attackRight, Enemy_Hurt, Enemy_Die, bars;
+	
 
 	public static void init () {
 		SpriteSheet sheet = new SpriteSheet (ImageLoader.loadImage("/textures/objects22.png"));
@@ -31,9 +26,9 @@ public class Assets {
 		SpriteSheet button_menu = new SpriteSheet (ImageLoader.loadImage("/textures/menu.png"));
 		SpriteSheet sheetEnemy = new SpriteSheet (ImageLoader.loadImage("/textures/EnemyObjects.png"));
 		SpriteSheet sheetBars = new SpriteSheet (ImageLoader.loadImage("/textures/bar.png"));
+		SpriteSheet MenuScreenSheet = new SpriteSheet (ImageLoader.loadImage("/textures/MenuScreen.png"));
+		SpriteSheet GameOverScreenSheet = new SpriteSheet (ImageLoader.loadImage("/textures/GameOverScreen.png"));
 
-
-		
 		
 		//button_menu
 		btn_start =  new BufferedImage[2];
@@ -180,6 +175,8 @@ public class Assets {
 		bars = new BufferedImage[1];
 		bars [0] = sheetBars.crop(0,0, 202, 74); 
 		
+		 MenuScreen = MenuScreenSheet.crop(0, 0, 900, 600); 
+		 GameOverScreen = GameOverScreenSheet.crop(0, 0, 900, 600);
 	}
 
 }// Assets
