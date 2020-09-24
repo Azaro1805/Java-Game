@@ -36,6 +36,7 @@ public class GameOverState extends State {
 
 	@Override
 	public void render(Graphics g) {
+		g.drawImage(Assets.GameOverScreen, 0, 0, 900, 600, null);
 		uiManager.render(g);
 	}
 
