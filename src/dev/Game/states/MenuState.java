@@ -1,6 +1,7 @@
 package dev.Game.states;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import dev.Game.Handler;
 import dev.Game.gfx.Assets;
@@ -27,8 +28,9 @@ public class MenuState extends State {
 			}
 		} ));
 
+	
 	}
-
+	
 	@Override
 	public void tick() {
 		uiManager.tick();
@@ -36,7 +38,9 @@ public class MenuState extends State {
 
 	@Override
 	public void render(Graphics g) {
+		g.drawImage(Assets.MenuScreen, 0, 0, 900, 600, null);
 		uiManager.render(g);
+
 	}
 
 
