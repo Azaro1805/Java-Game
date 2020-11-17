@@ -154,6 +154,8 @@ hiyo(start , end)
 
 print("********************* finish *****************")
 for i in neighborsRing:
+    #if(i[1]>="0"):
+     #   print(" ring ", i[0], " County is = ", i[1])
     if (i[0]=="Autauga County, AL"):
         print(" ring ", start," County is = " ,i[1])
     if (i[0]==end):
