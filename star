@@ -148,15 +148,16 @@ print("neighborsRing = ", np.matrix(neighborsRing))
     print("set =  ", myNeighborsSet(neighborsRing[i][0]))'''
 
 #test("Autauga County, AL" , "Shelby County, AL")
-
-hiyo("Autauga County, AL" , "Shelby County, AL")
+start = "Autauga County, AL"
+end = "Russell County, KY"
+hiyo(start , end)
 
 print("********************* finish *****************")
 for i in neighborsRing:
-    if (i[0]=="Lowndes County, AL"):
-        print(" ring Autauga County is  = " ,i[1])
-    if (i[0]=="Lowndes County, AL"):
-        print(" ring Shelby County is = " ,i[1])
+    if (i[0]=="Autauga County, AL"):
+        print(" ring ", start," County is = " ,i[1])
+    if (i[0]==end):
+        print(" ring ", end," County is = " ,i[1])
 
 '''neighbors'''
 
