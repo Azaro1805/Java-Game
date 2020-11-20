@@ -7,16 +7,45 @@ import pandas as pan
         csv_reader = csv.reader(csv_file)
         return csv_reader'''
 
+
 def createDB (data):
     CityDB = np.array(data)
-    CityDB2 = [ [ "" for j in range(3) ] for i in range(len(CityDB)) ]
+    ''' CityDB2 = [ [ "" for j in range(2) ] for i in range(len(CityDB)) ]
 
     for i in range(len(CityDB)):
         for j in range(len(CityDB[i])):
             if(CityDB[i][0] != CityDB[i][1]):
-                CityDB2[i][j] = CityDB[i][j]
+                CityDB2[i][j] = CityDB[i][j]'''
+    return CityDB
 
-    return CityDB2
+def createCountryDB ():
+    CountryDB = [[set() for j in range(2)] for i in range(56)]
+    k = 0
+    for i in (CityDB):
+        alreadyInside = False
+        Country = i[0].split(sep=", ", maxsplit=2)
+        for j in range(len(CountryDB)):
+            Country2 = getVauleFromSet(CountryDB[j][0])
+            if (Country2 == Country[1]):
+                alreadyInside = True
+                break
+        if (alreadyInside == False):
+            CountryDB[k][0].add(Country[1])
+            for n in CityDB:
+                alreadyInside2 = False
+                fromCountry = n[0].split(sep=", ", maxsplit=2)
+                toCountry = n[1].split(sep=", ", maxsplit=2)
+                if (Country[1] == fromCountry[1]):
+                    if(Country[1] == toCountry[1]):
+                        alreadyInside2 = True
+                    for t in CountryDB[k][1]:
+                        if (toCountry[1] == t):
+                            alreadyInside2 = True
+                            break
+                    if (alreadyInside2 == False):
+                        CountryDB[k][1].add(toCountry[1])
+            k = k + 1
+    return CountryDB
 
 def check_In_DB (CityName, CityDB):
 
@@ -88,7 +117,7 @@ def add1tostr(string):
     string = str(string)
     return string
 
-def recorRun (startLocation, endLocation ):
+def recorRun (startLocation, endLocation):
     flag = True
     makeEndLocationRing(endLocation)
     RingNumber = "0"
@@ -119,13 +148,18 @@ def recorRun (startLocation, endLocation ):
                     break
     print("neighborsRing = ", np.matrix(neighborsRing))
 
-
-def hiyo(startLocation, endLocation):
+def hiyo (startLocation, endLocation):
     '''צריך להכניס לסוף טבעת 0 '''
     recorRun(startLocation, endLocation)
 
-def test (startLocation, endLocation ):
+def test (startLocation, endLocation):
     makeRing(startLocation, "3")
+
+def getVauleFromSet(set1):
+    if(len(set1)==0):
+        return " "
+    for e in set1:
+        return e
 
 '''בקובץ יש את כל עיר והעיר הבאה/ הקרובה ביותר היא אותה עיר (אפשר להוריד עם לולאה או פשוט לתת לו ערך מוזר שלא יגמור לו לחזור לאותה עיר )'''
 
@@ -133,19 +167,24 @@ print("Start the Algorithm")
 
 data = pan.read_csv(r'C:\Users\oraza\Downloads\db1.csv')
 CityDB = createDB(data)
+countryDB = createCountryDB()
+
+
+
 '''CityDB[neighborname][countyname]'''
 #print(CityDB[0][0])
 #print(np.matrix(CityDB))
-
+'''
 
 neighborsRing = neighborsRingArray()
 
 print("neighborsRing = ", np.matrix(neighborsRing))
 
-'''for i in range(len(neighborsRing)):
-    print(i)
-    print("name  = " , neighborsRing[i][0])
-    print("set =  ", myNeighborsSet(neighborsRing[i][0]))'''
+#for i in range(len(neighborsRing)):
+#    print(i)
+#    print("name  = " , neighborsRing[i][0])
+#    print("set =  ", myNeighborsSet(neighborsRing[i][0]))
+
 
 #test("Autauga County, AL" , "Shelby County, AL")
 start = "Autauga County, AL"
@@ -160,21 +199,9 @@ for i in neighborsRing:
         print(" ring ", start," County is = " ,i[1])
     if (i[0]==end):
         print(" ring ", end," County is = " ,i[1])
+'''
+
 
 '''neighbors'''
-
-
-'''check if location is in DB'''
-'''city = "Washington County, UT"
-print()
-
-
-print("first " , CityDB[0] )
-'''
-'''print("The city ", city, "is in the DB ? ", check_In_DB(city, CityDB))
-'''
-'''find path for the voters'''
-'''print()
-find_path("Washington County, UT", "San Diego County, CA", "C", False)'''
 
 
