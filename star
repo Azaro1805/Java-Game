@@ -1,113 +1,35 @@
 import csv
 import numpy as np
 import pandas as pan
+import random
+import collections
+
+
+random.seed (364)
 
 '''def readCsv (fileName):
     with open(fileName, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         return csv_reader'''
-
-
-def createDB (data):
-    CityDB = np.array(data)
-    ''' CityDB2 = [ [ "" for j in range(2) ] for i in range(len(CityDB)) ]
-
-    for i in range(len(CityDB)):
-        for j in range(len(CityDB[i])):
-            if(CityDB[i][0] != CityDB[i][1]):
-                CityDB2[i][j] = CityDB[i][j]'''
-    return CityDB
-
-def createCountryDB ():
-    CountryDB = [[set() for j in range(2)] for i in range(56)]
-    k = 0
-    for i in (CityDB):
-        alreadyInside = False
-        Country = i[0].split(sep=", ", maxsplit=2)
-        for j in range(len(CountryDB)):
-            Country2 = getVauleFromSet(CountryDB[j][0])
-            if (Country2 == Country[1]):
-                alreadyInside = True
-                break
-        if (alreadyInside == False):
-            CountryDB[k][0].add(Country[1])
-            for n in CityDB:
-                alreadyInside2 = False
-                fromCountry = n[0].split(sep=", ", maxsplit=2)
-                toCountry = n[1].split(sep=", ", maxsplit=2)
-                if (Country[1] == fromCountry[1]):
-                    if(Country[1] == toCountry[1]):
-                        alreadyInside2 = True
-                    for t in CountryDB[k][1]:
-                        if (toCountry[1] == t):
-                            alreadyInside2 = True
-                            break
-                    if (alreadyInside2 == False):
-                        CountryDB[k][1].add(toCountry[1])
-            k = k + 1
-    return CountryDB
-
-def check_In_DB (CityName, CityDB):
-
-    print(CityDB.any(CityName))
-    '''for i in range (len(CityDB)):
-        for j in range(len(CityDB[0])):
-            if (CityDB[i][j] == CityName):
-                return True
-    return False'''
-
-def find_path(starting_locations, goal_locations, search_method, detail_output):
-    if (detail_output):
-       pathFound = False
-       path = starting_locations + " -> "
-
-
-       if(pathFound):
-           print(path)
-       else:
-           print("No path found.")
-    else:
-        print("If the binary detail_output variable is true,Print out the heuristic value of the the state of your "
-              "locations after the First transformation.")
-
-def neighborsRingArray():
-    neibSet = set()
-
-    for i in range(len(CityDB)):
-        if i not in neibSet:
-            neibSet.add(CityDB[i][0])
-
-    neibArray = [ [ "" for j in range(2) ] for i in range(len(neibSet)-1) ]
-
-    j=-1
-    for i in (neibSet):
-        neibArray[j][0] = i
-        j = j+1
-
-    neibSet.clear()
-    return neibArray
-
-def addRingNum(locations , RingNumber):
+'''def addRingNum(locations , RingNumber):
     for i in range(len(neighborsRing)):
         if(neighborsRing[i][0] == locations and neighborsRing[i][1] == ""):
             neighborsRing[i][1] = RingNumber
-            print("the location :", neighborsRing[i][0] , " , the number of ring after add :", neighborsRing[i][1])
-
-def myNeighborsSet(locations):
+            print("the location :", neighborsRing[i][0] , " , the number of ring after add :", neighborsRing[i][1])'''
+'''def myNeighborsSet(locations):
     NeibOfLocations = set()
     for i in range(len(CityDB)):
             #print("i = " , i , " , ", CityDB[i][1],"==",locations)
             if(CityDB[i][0]==locations and CityDB[i][1]!="" ):
                 #print("add" , CityDB[i][1])
                 NeibOfLocations.add(CityDB[i][1])
-    return NeibOfLocations
-
-def makeRing(locations , RingNumber):
+    return NeibOfLocations'''
+'''def makeRing(locations , RingNumber):
     NeibOfLocations = myNeighborsSet(locations)
     print("neibset of  = ", locations, " , is: " , NeibOfLocations)
     for i in NeibOfLocations:
-        addRingNum(i , RingNumber)
-
+        addRingNum(i , RingNumber)'''
+'''
 def makeEndLocationRing(endLocation):
     addRingNum(endLocation, "0")
     makeRing(endLocation, "1")
@@ -149,11 +71,64 @@ def recorRun (startLocation, endLocation):
     print("neighborsRing = ", np.matrix(neighborsRing))
 
 def hiyo (startLocation, endLocation):
-    '''צריך להכניס לסוף טבעת 0 '''
-    recorRun(startLocation, endLocation)
+    צריך להכניס לסוף טבעת 0
+    recorRun(startLocation, endLocation)'''
 
-def test (startLocation, endLocation):
-    makeRing(startLocation, "3")
+def createDB (data):
+    CityDB = np.array(data)
+    ''' CityDB2 = [ [ "" for j in range(2) ] for i in range(len(CityDB)) ]
+
+    for i in range(len(CityDB)):
+        for j in range(len(CityDB[i])):
+            if(CityDB[i][0] != CityDB[i][1]):
+                CityDB2[i][j] = CityDB[i][j]'''
+    return CityDB
+
+def createCountryDB ():
+    CountryDB = [[set() for j in range(2)] for i in range(56)]
+    k = 0
+    for i in (CityDB):
+        alreadyInside = False
+        Country = i[0].split(sep=", ", maxsplit=2)
+        for j in range(len(CountryDB)):
+            Country2 = getVauleFromSet(CountryDB[j][0])
+            if (Country2 == Country[1]):
+                alreadyInside = True
+                break
+        if (alreadyInside == False):
+            CountryDB[k][0].add(Country[1])
+            for n in CityDB:
+                alreadyInside2 = False
+                fromCountry = n[0].split(sep=", ", maxsplit=2)
+                toCountry = n[1].split(sep=", ", maxsplit=2)
+                if (Country[1] == fromCountry[1]):
+                    if(Country[1] == toCountry[1]):
+                        alreadyInside2 = True
+                    for t in CountryDB[k][1]:
+                        if (toCountry[1] == t):
+                            alreadyInside2 = True
+                            break
+                    if (alreadyInside2 == False):
+                        CountryDB[k][1].add(toCountry[1])
+            k = k + 1
+    return CountryDB
+
+def neighborsRingArray():
+    neibSet = set()
+
+    for i in range(len(CityDB)):
+        if i not in neibSet:
+            neibSet.add(CityDB[i][0])
+
+    neibArray = [ [ "" for j in range(2) ] for i in range(len(neibSet)-1) ]
+
+    j=-1
+    for i in (neibSet):
+        neibArray[j][0] = i
+        j = j+1
+
+    neibSet.clear()
+    return neibArray
 
 def getVauleFromSet(set1):
     if(len(set1)==0):
@@ -161,14 +136,217 @@ def getVauleFromSet(set1):
     for e in set1:
         return e
 
+def addRingNum(locations , RingNumber):
+    for i in range(len(countryDB)):
+        city = getVauleFromSet(countryDB[i][0])
+        #print("city = " , city , ", locations = " , locations, ringNumbers[i] , len(countryDB)+5)
+        if(city == locations and ringNumbers[i]==len(countryDB)+5):
+            citiesName[i] = city
+            ringNumbers[i] = RingNumber
+            print("the location :", citiesName[i] , " , the number of ring after add :", ringNumbers[i])
+
+def myNeighborsSet(locations):
+    for i in range(len(countryDB)):
+        city = getVauleFromSet(countryDB[i][0])
+        if(city==locations):
+            return countryDB[i][1]
+
+def makeRing(locations , ringNumber):
+    NeibOfLocations = myNeighborsSet(locations)
+    print("neibset of  = ", locations, " , is: " , NeibOfLocations)
+    for i in NeibOfLocations:
+        addRingNum(i , ringNumber)
+
+def inFirstRing(endLocation):
+    for i in range (len(citiesName)):
+        if(citiesName[i]==endLocation):
+            if(ringNumbers[i]==1):
+                return True
+
+    return False
+
+def StartPointRing(startLocation, endLocation):
+    ringNumber = 0
+    for i in range (len(countryDB)):
+        country = getVauleFromSet(countryDB[i][0])
+        if(country==endLocation):
+            ringNumbers[i] = 0
+            citiesName[i] = endLocation
+            print("the location : ", citiesName[i], ", the number of ring after add : ", ringNumbers[i])
+    makeRing(endLocation, ringNumber + 1)
+
+def BFS(startLocation, endLocation):
+    arriveToEnd = False
+    ringNumber = 0
+    StartPointRing(startLocation, endLocation)
+    print(citiesName)
+    print(ringNumbers)
+    arriveToEnd=inFirstRing(startLocation)
+    while (arriveToEnd == False):
+        ringNumber = ringNumber + 1
+        print("flag = ", arriveToEnd, ", RingNumber = ", ringNumber)
+        for i in range(len(countryDB)):
+            if (arriveToEnd == True):
+                break
+            # print("countryDB[i][0] =" , countryDB[i][0] , ", ringNumber = " , ringNumbers[i])
+            if (ringNumbers[i] == ringNumber):
+                # print("neibSet befor = ", myNeighborsSet(neighborsRing[i][0]))
+                # neibSet = myNeighborsSet(neighborsRing[i][0])
+                ringNumber2 = ringNumber + 1
+                # print("neighborsRing = ", np.matrix(neighborsRing))
+                print(
+                    "###################################### new firends of the ring  : #######################################")
+                print(" name  = ", countryDB[i][0], "RingNumber = ", ringNumbers[i], ", new ring =", ringNumber2)
+                city2 = getVauleFromSet(countryDB[i][0])
+                makeRing(city2, ringNumber2)
+                if (city2 == startLocation):
+                    print("%%%%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+                    print("i = endLocation =", city2)
+                    arriveToEnd = True
+                    break
+    print("neighborsRing = ", citiesName)
+    print("neighborsRing = ", ringNumbers)
+
+def findPath2(startLocation, endLocation):
+    print()
+    path3 = ["" for i in range(len(countryDB))]
+    getPath = False
+
+    while (getPath==False):
+        print("while")
+        for i in range(len(citiesName)):
+            city = getVauleFromSet(countryDB[i][0])
+            if (city == endLocation):
+                ring = ringNumbers[i]
+                k = ringNumbers[i]
+                print(" k = ", k)
+                k = k - 1
+        while(getPath == False):
+            i=0
+            city = getVauleFromSet(countryDB[i][0])
+            print("city = " , city, ", ringNumbers[i]= ", ringNumbers[i] , ", ring  = " , ring-1 , ", nieb = ", countryDB[i][1] , ", path3[k] = ", path3[k+1])
+            if ( (ringNumbers[i] == ring - 1) and (path3[k+1] in countryDB[i][1])):
+                print("add to path " , city , ", his ring = " ,ring-1)
+                path3[k] = city
+                k = k-1
+                ring = ring - 1
+                print("path3 = " , path3)
+                i=0
+                if (k == 0 and city == startLocation ):
+                    getPath = True
+                    break
+            i=i+1
+            print(getPath)
+            '''if (i== (len(countryDB)-1)):
+                path3.clear()'''
+            i = i + 1
+
+def hiyoCity(startLocation, endLocation):
+    BFS(startLocation, endLocation)
+
+def getHeuristicValue(location):
+    locationSplit = location.split(sep=", ", maxsplit=2)
+    city = locationSplit[0]
+    Country = locationSplit[1]
+    #print("Country = ", Country ,", City = ", city)
+    for i in range (len(citiesName)):
+        Country2 = getVauleFromSet(countryDB[i][0])
+        #print("Country2 = ",Country2, " , Country=" , Country)
+        if(Country2 == Country):
+            return ringNumbers[i]
+    return 61
+
+def printlist (list):
+    for i in list:
+        print("i.name = ", i.name, ", i.dataF = ", i.dataF, ", i.next = ", i.next, ", i.before = ", i.before)
+
+def myNeighborsSetCity (location):
+    set1 = set()
+    for i in (CityDB):
+        fromCountry = i[0].split(sep=", ", maxsplit=2)
+        toCountry = i[1].split(sep=", ", maxsplit=2)
+        city = fromCountry[0]+", "+fromCountry[1]
+        city2 = toCountry[0]+", "+toCountry[1]
+        if (city == location and city2!= location):
+            set1.add(city2)
+    return set1
+
+
+def firstStep(starting_locations):
+    set = myNeighborsSetCity(starting_locations)
+    print()
+    print(set)
+    for i in set :
+        fortier.append(Node(i ,getHeuristicValue(i)+0.1,myNeighborsSetCity(i) ,starting_locations))
+    printlist(fortier)
+
+def find_path(starting_locations, goal_locations, search_method, detail_output):
+    split = starting_locations.split(sep=", ", maxsplit=2)
+    country1 = split[1]
+    split = goal_locations.split(sep=", ", maxsplit=2)
+    country2 = split[1]
+
+    hiyoCity(country1, country2)
+
+    firstStep(starting_locations)
+    getPath = False
+    '''pathList.append(Node(starting_locations ,getHeuristicValue(starting_locations),myNeighborsSet(starting_locations) ,"none"))
+    printlist(pathList)
+    f = + 1 + getHeuristicValue(starting_locations)'''
+
+
+    #while (getPath == False):
+
+        #pathList.append(Node(starting_locations, 0, myNeighborsSet(starting_locations), "none"))
+        #f =  + 1 + getHeuristicValue(starting_locations)
+
+
+
+    '''if (detail_output):
+       pathFound = False
+       path = starting_locations + " -> "
+
+
+       if(pathFound):
+           print(path)
+       else:
+           print("No path found.")
+    else:
+        print("If the binary detail_output variable is true,Print out the heuristic value of the the state of your "
+              "locations after the First transformation.")
+    '''
+
+
 '''בקובץ יש את כל עיר והעיר הבאה/ הקרובה ביותר היא אותה עיר (אפשר להוריד עם לולאה או פשוט לתת לו ערך מוזר שלא יגמור לו לחזור לאותה עיר )'''
+
+class Node:
+    def __init__(self,name, data , next, before):
+        self.name = name
+        self.dataF = data
+        self.next = next
+        self.before = before
+
 
 print("Start the Algorithm")
 
-data = pan.read_csv(r'C:\Users\oraza\Downloads\db1.csv')
+data = pan.read_csv(r'C:\Users\oraza\Downloads\adjacency.csv')
 CityDB = createDB(data)
+print(np.matrix(CityDB))
 countryDB = createCountryDB()
+ringNumbers = [len(countryDB) + 5 for i in range(len(countryDB))]
+citiesName = ["" for i in range(len(countryDB))]
+#path = ["" for i in range(len(countryDB))]
+pathList = list()
+fortier = list()
+find_path("Autauga County, AL","Autauga County, NC","A*",True)
 
+
+
+
+#print(np.matrix(countryDB))
+#hiyoCity("AL","NC")
+'''ans=getHeuristicValue("Autauga County, AL")
+print(ans)'''
 
 
 '''CityDB[neighborname][countyname]'''
@@ -203,5 +381,3 @@ for i in neighborsRing:
 
 
 '''neighbors'''
-
-
