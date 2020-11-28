@@ -180,6 +180,9 @@ def StartPointRing(startLocation, endLocation):
 def BFS(startLocation, endLocation):
     arriveToEnd = False
     ringNumber = 0
+    for i in range(len(ringNumbers)):
+        ringNumbers[i] = len(countryDB) + 5
+        citiesName[i] = ""
     StartPointRing(startLocation, endLocation)
     #print(citiesName)
     #print(ringNumbers)
@@ -275,12 +278,16 @@ def myNeighborsSetCity (location):
 
 def firstStep(starting_locations):
     set = myNeighborsSetCity(starting_locations)
-    pathList.append(Node(starting_locations,-1,set,"Start Point"))
+    pathList.append(Node(starting_locations,getHeuristicValue(starting_locations),set,"Start Point"))
     #print()
     #print(set)
     for i in set:
         frontier.append(Node(i, getHeuristicValue(i) + 0.001, myNeighborsSetCity(i), starting_locations))
+    #print("frontier after first step")
     #printlist(frontier)
+    #print("path after first step")
+    #printlist(pathList)
+    #print()
 
 def getTheLowest ():
     min = 65
@@ -305,6 +312,7 @@ def isInList (list , location):
 def allreadyInsideFrontier(me,friend):
     for i in frontier:
         if (i.name == friend):
+            #print(i.name , " , i.DatafF = " , i.dataF, " , i.before = " , i.before)
             if (getHeuristicValue(me.name) == getHeuristicValue(friend)):
                 if (i.dataF > (me.dataF + 0.001)):
                     i.dataF = me.dataF + 0.001
@@ -314,6 +322,7 @@ def allreadyInsideFrontier(me,friend):
                 if (i.dataF > newF):
                     i.dataF = newF
                     i.before = me.name
+            #print(i.name , " , i.DatafF = " , i.dataF, " , i.before = " , i.before)
             return True
     return False
 
@@ -321,34 +330,42 @@ def caculateF (me,friend):
     meName = me.name
     if(allreadyInsideFrontier(me,friend) == False):
         if(getHeuristicValue(me.name)==getHeuristicValue(friend)):
-            return me.dataF+0.001
+            return me.dataF + 0.001
         return ( me.dataF-getHeuristicValue(me.name) )+ getHeuristicValue(friend) + 0.001
     return True
 
 def sortNodeList(nodeList):
-    printlist(nodeList)
-    print()
+    #printlist(nodeList)
+    #print()
     sorted = list()
-    min2 =0
+    max = 0
+    max2 = 0
     finish =False
     while (finish == False):
-        min2 = 10000
+        max = 0
+        max2 = 0
         for i in nodeList:
-            if (i.dataF < min2):
-                min2 = i.dataF
-        print(min2)
+            if (i.dataF > max):
+                max = i.dataF
+                max2 = i.dataF
+            if (i.dataF < max and (max- i.dataF)<0.2):
+                if(i.dataF<max2):
+                    max2= i.dataF
+
+        #print("max = " , max , " , max2 = " , max2)
         for j in nodeList:
-            if (j.dataF == min2):
-                min2 = j.dataF
+            if (j.dataF == max2):
                 sorted.append(j)
                 nodeList.remove(j)
                 if(len(nodeList)==0):
                     finish = True
                     break
-    printlist(sorted)
+
+
+    #printlist(sorted)
     return sorted
 
-def printRoute(pathList):
+def printRouteString(pathList):
     stringPath = ""
     for i in pathList:
 
@@ -364,18 +381,23 @@ def printPath(endLocation):
     endLocationInside=False
     while (Finish == False):
         for i in pathList :
-          if(endLocation == i.name and endLocationInside==False):
-              path.append(i)
-              lastLocation = i.before
-              endLocationInside = True
-          if (lastLocation == i.name ):
-              path.append(i)
-              lastLocation = i.before
-              if (lastLocation == "Start Point"):
-                  Finish = True
-                  break
+            if(endLocation == i.name and endLocationInside==False):
+                #print("End location")
+                #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
+                path.append(i)
+                lastLocation = i.before
+                endLocationInside = True
+                #print("lastLocation = ", lastLocation)
+            if (lastLocation == i.name ):
+                #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
+                path.append(i)
+                lastLocation = i.before
+                #print("lastLocation = ", lastLocation)
+                if (lastLocation == "Start Point"):
+                    Finish = True
+                    break
     path=sortNodeList(path)
-    printRoute(path)
+    printRouteString(path)
 
 def find_path(starting_locations, goal_locations, search_method, detail_output):
     split = starting_locations.split(sep=", ", maxsplit=2)
@@ -403,9 +425,7 @@ def find_path(starting_locations, goal_locations, search_method, detail_output):
         #print("pathList = ")
         #printlist(pathList)
         frontier.remove(lowest)
-        #print("Frontier = ")
-        #printlist(frontier)
-        #print()
+
 
         '''for i in fortier:
             if(i.name ==  "Elmore County, AL"):
@@ -420,7 +440,9 @@ def find_path(starting_locations, goal_locations, search_method, detail_output):
             #print()
             #print("next i = ",  i)
             #printlist(fortier)
-
+        #print("Frontier = ")
+        #printlist(frontier)
+        #print()
 
     '''pathList.append(Node(starting_locations ,getHeuristicValue(starting_locations),myNeighborsSet(starting_locations) ,"none"))
     printlist(pathList)
@@ -471,7 +493,6 @@ frontier = list()
 find_path("Washington County, UT","San Diego County, CA","A*",True)
 find_path("Chicot County, AR","Bienville Parish, LA","A*",True)
 find_path("Fairfield County, CT","Rensselaer County, NY","A*",True)
-#find_path("Chicot County, AR","Bienville Parish, LA","A*",True)
 
 print()
 print("End the Algorithm")
