@@ -377,16 +377,43 @@ def find_path_for_each_country(starting_locations, goal_locations):
         #printlist(frontier)
         #print()
 
+def printOutput(array):
+    print()
+    max = len(array[0])
+    for i in array:
+        if(max < len(i)):
+            max = len(i)
+
+    pathArray = [["" for j in range (len(array))] for i in range(max)]
+    for j in range(len(pathArray[0])):
+        list1 = array[j]
+        for i in range (len(pathArray)):
+            if (len(array[j])-1==i):
+                pathArray[i][j] = list1[i].name
+            if(len(array[j])-1>i):
+                pathArray[i][j] = list1[i].name
+            if (pathArray[i][j]==""):
+                pathArray[i][j]=pathArray[i-1][j]
+
+    output = ["" for i in range (len(pathArray))]
+    for i in range(len(output)):
+        output[i] = "{"
+        for j in range(len(pathArray[0])):
+            output[i]  = output[i] + pathArray[i][j] + " ; "
+        output[i] = output[i][0:(len(output[i])-3)]+"}"
+        print(output[i])
+
 def find_path(starting_locations, goal_locations, search_method, detail_output):
-    arrayoflist = [list() for i in range(len(starting_locations))]
+    arrayofPathlist = [list() for i in range(len(starting_locations))]
     for i in range(len(starting_locations)):
         find_path_for_each_country(starting_locations[i],goal_locations[i])
-        arrayoflist[i]=copy.deepcopy(pathSorted)
+        arrayofPathlist[i]=copy.deepcopy(pathSorted)
         pathSorted.clear()
         pathList.clear()
         frontier.clear()
-        printlist(arrayoflist[i])
-        print()
+        #printlist(arrayofPathlist[i])
+        #print()
+    printOutput(arrayofPathlist)
 
     '''if (detail_output):
            pathFound = False
