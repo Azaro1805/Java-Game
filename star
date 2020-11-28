@@ -2,77 +2,12 @@ import csv
 import numpy as np
 import pandas as pan
 import random
+import copy
+
 import collections
 
 
 random.seed (364)
-
-'''def readCsv (fileName):
-    with open(fileName, 'r') as csv_file:
-        csv_reader = csv.reader(csv_file)
-        return csv_reader'''
-'''def addRingNum(locations , RingNumber):
-    for i in range(len(neighborsRing)):
-        if(neighborsRing[i][0] == locations and neighborsRing[i][1] == ""):
-            neighborsRing[i][1] = RingNumber
-            print("the location :", neighborsRing[i][0] , " , the number of ring after add :", neighborsRing[i][1])'''
-'''def myNeighborsSet(locations):
-    NeibOfLocations = set()
-    for i in range(len(CityDB)):
-            #print("i = " , i , " , ", CityDB[i][1],"==",locations)
-            if(CityDB[i][0]==locations and CityDB[i][1]!="" ):
-                #print("add" , CityDB[i][1])
-                NeibOfLocations.add(CityDB[i][1])
-    return NeibOfLocations'''
-'''def makeRing(locations , RingNumber):
-    NeibOfLocations = myNeighborsSet(locations)
-    print("neibset of  = ", locations, " , is: " , NeibOfLocations)
-    for i in NeibOfLocations:
-        addRingNum(i , RingNumber)'''
-'''
-def makeEndLocationRing(endLocation):
-    addRingNum(endLocation, "0")
-    makeRing(endLocation, "1")
-
-def add1tostr(string):
-    string = int(string) + 1
-    string = str(string)
-    return string
-
-def recorRun (startLocation, endLocation):
-    flag = True
-    makeEndLocationRing(endLocation)
-    RingNumber = "0"
-
-    print("neighborsRing = " , np.matrix(neighborsRing) )
-    print("###################################### Start while hyoristic : #######################################")
-    print()
-    while (flag):
-        RingNumber = add1tostr(RingNumber)
-        print("flag = ", flag , ", RingNumber = " , RingNumber)
-        for i in range(len(neighborsRing)):
-            if (flag == False):
-                break
-            #print("neighborsRing[i][1] =" , neighborsRing[i][1] , "RingNumber = " , RingNumber)
-            if(neighborsRing[i][1] == RingNumber):
-                #print("neibSet befor = ", myNeighborsSet(neighborsRing[i][0]))
-                #neibSet = myNeighborsSet(neighborsRing[i][0])
-                RingNumber2 = add1tostr(RingNumber)
-                print("neighborsRing = ", np.matrix(neighborsRing))
-                print("###################################### new firends of the ring  : #######################################")
-                print("name  = ", neighborsRing[i][0] , ", his RingNumber = ", neighborsRing[i][1] ,", new ring =",RingNumber2)
-                print()
-                makeRing(neighborsRing[i][0], RingNumber2)
-                if (neighborsRing[i][0] == startLocation):
-                    print("%%%%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-                    print("i = startLocation =", neighborsRing[i][0])
-                    flag = False
-                    break
-    print("neighborsRing = ", np.matrix(neighborsRing))
-
-def hiyo (startLocation, endLocation):
-    צריך להכניס לסוף טבעת 0
-    recorRun(startLocation, endLocation)'''
 
 def createDB (data):
     CityDB = np.array(data)
@@ -177,7 +112,7 @@ def StartPointRing(startLocation, endLocation):
             #print("the location : ", citiesName[i], ", the number of ring after add : ", ringNumbers[i])
     makeRing(endLocation, ringNumber + 1)
 
-def BFS(startLocation, endLocation):
+def BFSCity(startLocation, endLocation):
     arriveToEnd = False
     ringNumber = 0
     for i in range(len(ringNumbers)):
@@ -245,9 +180,6 @@ def findPath2(startLocation, endLocation):
             '''if (i== (len(countryDB)-1)):
                 path3.clear()'''
             i = i + 1
-
-def hiyoCity(startLocation, endLocation):
-    BFS(startLocation, endLocation)
 
 def getHeuristicValue(location):
     locationSplit = location.split(sep=", ", maxsplit=2)
@@ -399,13 +331,20 @@ def printPath(endLocation):
     path=sortNodeList(path)
     printRouteString(path)
 
-def find_path(starting_locations, goal_locations, search_method, detail_output):
+    for i in path:
+        pathSorted.append(i)
+
+def createOutPutPrint():
+    print("A")
+
+def find_path_for_each_country(starting_locations, goal_locations):
+
     split = starting_locations.split(sep=", ", maxsplit=2)
     country1 = split[1]
     split = goal_locations.split(sep=", ", maxsplit=2)
     country2 = split[1]
 
-    hiyoCity(country1, country2)
+    BFSCity(country1, country2)
 
     firstStep(starting_locations)
     getPath = False
@@ -426,12 +365,6 @@ def find_path(starting_locations, goal_locations, search_method, detail_output):
         #printlist(pathList)
         frontier.remove(lowest)
 
-
-        '''for i in fortier:
-            if(i.name ==  "Elmore County, AL"):
-                i.dataF = i.dataF+1
-                print(i.dataF)'''
-
         for i in lowest.next:
             if (isInList(pathList,i) == False):
                 F = caculateF(lowest, i)
@@ -444,32 +377,30 @@ def find_path(starting_locations, goal_locations, search_method, detail_output):
         #printlist(frontier)
         #print()
 
-    '''pathList.append(Node(starting_locations ,getHeuristicValue(starting_locations),myNeighborsSet(starting_locations) ,"none"))
-    printlist(pathList)
-    f = + 1 + getHeuristicValue(starting_locations)'''
-
-
-    #while (getPath == False):
-
-        #pathList.append(Node(starting_locations, 0, myNeighborsSet(starting_locations), "none"))
-        #f =  + 1 + getHeuristicValue(starting_locations)
-
-
+def find_path(starting_locations, goal_locations, search_method, detail_output):
+    arrayoflist = [list() for i in range(len(starting_locations))]
+    for i in range(len(starting_locations)):
+        find_path_for_each_country(starting_locations[i],goal_locations[i])
+        arrayoflist[i]=copy.deepcopy(pathSorted)
+        pathSorted.clear()
+        pathList.clear()
+        frontier.clear()
+        printlist(arrayoflist[i])
+        print()
 
     '''if (detail_output):
-       pathFound = False
-       path = starting_locations + " -> "
+           pathFound = False
+           path = starting_locations + " -> "
 
 
-       if(pathFound):
-           print(path)
-       else:
-           print("No path found.")
-    else:
-        print("If the binary detail_output variable is true,Print out the heuristic value of the the state of your "
-              "locations after the First transformation.")
-    '''
-
+           if(pathFound):
+               print(path)
+           else:
+               print("No path found.")
+        else:
+            print("If the binary detail_output variable is true,Print out the heuristic value of the the state of your "
+                  "locations after the First transformation.")
+        '''
 class Node:
     def __init__(self,name, data , next, before):
         self.name = name
@@ -487,54 +418,32 @@ CityDB = createDB(data)
 countryDB = createCountryDB()
 ringNumbers = [len(countryDB) + 5 for i in range(len(countryDB))]
 citiesName = ["" for i in range(len(countryDB))]
-#path = ["" for i in range(len(countryDB))]
 pathList = list()
+pathSorted = list()
 frontier = list()
-find_path("Washington County, UT","San Diego County, CA","A*",True)
-find_path("Chicot County, AR","Bienville Parish, LA","A*",True)
-find_path("Fairfield County, CT","Rensselaer County, NY","A*",True)
+startList = [" " for i in range(3)]
+endList = [" " for i in range(3)]
+
+startList[0]="Washington County, UT"
+startList[1]="Chicot County, AR"
+startList[2]="Fairfield County, CT"
+
+endList[0]="San Diego County, CA"
+endList[1]="Bienville Parish, LA"
+endList[2]="Rensselaer County, NY"
+
+'''startList = list()
+endList = list()
+
+startList.append("Washington County, UT")
+startList.append("Chicot County, AR")
+startList.append("Fairfield County, CT")
+
+endList.append("San Diego County, CA")
+endList.append("Bienville Parish, LA")
+endList.append("Rensselaer County, NY")'''
+
+find_path(startList, endList, "A*", True)
 
 print()
 print("End the Algorithm")
-
-
-
-
-#print(np.matrix(countryDB))
-#hiyoCity("AL","NC")
-'''ans=getHeuristicValue("Autauga County, AL")
-print(ans)'''
-
-
-'''CityDB[neighborname][countyname]'''
-#print(CityDB[0][0])
-#print(np.matrix(CityDB))
-'''
-
-neighborsRing = neighborsRingArray()
-
-print("neighborsRing = ", np.matrix(neighborsRing))
-
-#for i in range(len(neighborsRing)):
-#    print(i)
-#    print("name  = " , neighborsRing[i][0])
-#    print("set =  ", myNeighborsSet(neighborsRing[i][0]))
-
-
-#test("Autauga County, AL" , "Shelby County, AL")
-start = "Autauga County, AL"
-end = "Russell County, KY"
-hiyo(start , end)
-
-print("********************* finish *****************")
-for i in neighborsRing:
-    #if(i[1]>="0"):
-     #   print(" ring ", i[0], " County is = ", i[1])
-    if (i[0]=="Autauga County, AL"):
-        print(" ring ", start," County is = " ,i[1])
-    if (i[0]==end):
-        print(" ring ", end," County is = " ,i[1])
-'''
-
-
-'''neighbors'''
