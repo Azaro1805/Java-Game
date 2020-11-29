@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pan
 import random
 import copy
-
 import collections
 
 
@@ -48,23 +47,6 @@ def createCountryDB ():
             k = k + 1
     return CountryDB
 
-def neighborsRingArray():
-    neibSet = set()
-
-    for i in range(len(CityDB)):
-        if i not in neibSet:
-            neibSet.add(CityDB[i][0])
-
-    neibArray = [ [ "" for j in range(2) ] for i in range(len(neibSet)-1) ]
-
-    j=-1
-    for i in (neibSet):
-        neibArray[j][0] = i
-        j = j+1
-
-    neibSet.clear()
-    return neibArray
-
 def getVauleFromSet(set1):
     if(len(set1)==0):
         return " "
@@ -103,18 +85,18 @@ def inFirstRing(endLocation):
     return False
 
 def StartPointRing(startLocation, endLocation):
-    ringNumber = 0
+    ringNumber = 1
     for i in range (len(countryDB)):
         country = getVauleFromSet(countryDB[i][0])
         if(country==endLocation):
-            ringNumbers[i] = 0
+            ringNumbers[i] = 1
             citiesName[i] = endLocation
             #print("the location : ", citiesName[i], ", the number of ring after add : ", ringNumbers[i])
     makeRing(endLocation, ringNumber + 1)
 
 def BFSCity(startLocation, endLocation):
     arriveToEnd = False
-    ringNumber = 0
+    ringNumber = 1
     for i in range(len(ringNumbers)):
         ringNumbers[i] = len(countryDB) + 5
         citiesName[i] = ""
@@ -146,40 +128,6 @@ def BFSCity(startLocation, endLocation):
                     break
     #print("neighborsRing = ", citiesName)
     #print("neighborsRing = ", ringNumbers)
-
-def findPath2(startLocation, endLocation):
-    print()
-    path3 = ["" for i in range(len(countryDB))]
-    getPath = False
-
-    while (getPath==False):
-        #print("while")
-        for i in range(len(citiesName)):
-            city = getVauleFromSet(countryDB[i][0])
-            if (city == endLocation):
-                ring = ringNumbers[i]
-                k = ringNumbers[i]
-                #print(" k = ", k)
-                k = k - 1
-        while(getPath == False):
-            i=0
-            city = getVauleFromSet(countryDB[i][0])
-            #print("city = " , city, ", ringNumbers[i]= ", ringNumbers[i] , ", ring  = " , ring-1 , ", nieb = ", countryDB[i][1] , ", path3[k] = ", path3[k+1])
-            if ( (ringNumbers[i] == ring - 1) and (path3[k+1] in countryDB[i][1])):
-                #print("add to path " , city , ", his ring = " ,ring-1)
-                path3[k] = city
-                k = k-1
-                ring = ring - 1
-                #print("path3 = " , path3)
-                i=0
-                if (k == 0 and city == startLocation ):
-                    getPath = True
-                    break
-            i=i+1
-            #print(getPath)
-            '''if (i== (len(countryDB)-1)):
-                path3.clear()'''
-            i = i + 1
 
 def getHeuristicValue(location):
     locationSplit = location.split(sep=", ", maxsplit=2)
@@ -304,7 +252,7 @@ def printRouteString(pathList):
         stringPath = stringPath + i.name + " -> "
 
     stringPath = stringPath[0:len(stringPath)-4]
-    print(stringPath)
+    #print(stringPath)
 
 def printPath(endLocation):
     path = list()
@@ -339,12 +287,12 @@ def createOutPutPrint():
 
 def find_path_for_each_country(starting_locations, goal_locations):
 
-    split = starting_locations.split(sep=", ", maxsplit=2)
+    '''split = starting_locations.split(sep=", ", maxsplit=2)
     country1 = split[1]
     split = goal_locations.split(sep=", ", maxsplit=2)
     country2 = split[1]
 
-    BFSCity(country1, country2)
+    BFSCity(country1, country2)'''
 
     firstStep(starting_locations)
     getPath = False
@@ -377,57 +325,59 @@ def find_path_for_each_country(starting_locations, goal_locations):
         #printlist(frontier)
         #print()
 
-def printOutput(array):
-    print()
-    max = len(array[0])
-    for i in array:
-        if(max < len(i)):
-            max = len(i)
+def printOutput(array, detail_output):
+        max = len(array[0])
+        for i in array:
+            if(max < len(i)):
+                max = len(i)
 
-    pathArray = [["" for j in range (len(array))] for i in range(max)]
-    for j in range(len(pathArray[0])):
-        list1 = array[j]
-        for i in range (len(pathArray)):
-            if (len(array[j])-1==i):
-                pathArray[i][j] = list1[i].name
-            if(len(array[j])-1>i):
-                pathArray[i][j] = list1[i].name
-            if (pathArray[i][j]==""):
-                pathArray[i][j]=pathArray[i-1][j]
-
-    output = ["" for i in range (len(pathArray))]
-    for i in range(len(output)):
-        output[i] = "{"
+        pathArray = [["" for j in range (len(array))] for i in range(max)]
         for j in range(len(pathArray[0])):
-            output[i]  = output[i] + pathArray[i][j] + " ; "
-        output[i] = output[i][0:(len(output[i])-3)]+"}"
-        print(output[i])
+            list1 = array[j]
+            for i in range (len(pathArray)):
+                if (len(array[j])-1==i):
+                    pathArray[i][j] = list1[i].name
+                if(len(array[j])-1>i):
+                    pathArray[i][j] = list1[i].name
+                if (pathArray[i][j]==""):
+                    pathArray[i][j]=pathArray[i-1][j]
 
-def find_path(starting_locations, goal_locations, search_method, detail_output):
+        output = ["" for i in range (len(pathArray))]
+        for i in range(len(output)):
+            output[i] = "{"
+            for j in range(len(pathArray[0])):
+                output[i]  = output[i] + pathArray[i][j] + " ; "
+            output[i] = output[i][0:(len(output[i])-3)]+"}"
+            print(output[i])
+
+def printOutPut2 ():
+    print("Location = ", pathSorted[1].name , " , Heuristic value = ", pathSorted[1].dataF)
+
+def A_star(starting_locations,goal_locations, detail_output):
     arrayofPathlist = [list() for i in range(len(starting_locations))]
     for i in range(len(starting_locations)):
-        find_path_for_each_country(starting_locations[i],goal_locations[i])
-        arrayofPathlist[i]=copy.deepcopy(pathSorted)
+        find_path_for_each_country(starting_locations[i], goal_locations[i])
+        arrayofPathlist[i] = copy.deepcopy(pathSorted)
+        if(detail_output):
+            printOutPut2()
         pathSorted.clear()
         pathList.clear()
         frontier.clear()
-        #printlist(arrayofPathlist[i])
-        #print()
-    printOutput(arrayofPathlist)
+        # printlist(arrayofPathlist[i])
+        # print()
+    if (detail_output == False):
+        printOutput(arrayofPathlist,detail_output)
+    '''לא מצאנו נתיב  No path found.'''
 
-    '''if (detail_output):
-           pathFound = False
-           path = starting_locations + " -> "
+def find_path(starting_locations, goal_locations, search_method, detail_output):
+    for i in range(len(starting_locations)):
+        split = starting_locations.split(sep=", ", maxsplit=2)
+        country1 = split[1]
+        split = goal_locations.split(sep=", ", maxsplit=2)
+        country2 = split[1]
+        BFSCity(country1, country2)
+        A_star(starting_locations[i], goal_locations[i], detail_output)
 
-
-           if(pathFound):
-               print(path)
-           else:
-               print("No path found.")
-        else:
-            print("If the binary detail_output variable is true,Print out the heuristic value of the the state of your "
-                  "locations after the First transformation.")
-        '''
 class Node:
     def __init__(self,name, data , next, before):
         self.name = name
@@ -441,10 +391,10 @@ print()
 
 data = pan.read_csv(r'C:\Users\oraza\Downloads\adjacency.csv')
 CityDB = createDB(data)
-#print(np.matrix(CityDB))
 countryDB = createCountryDB()
 ringNumbers = [len(countryDB) + 5 for i in range(len(countryDB))]
 citiesName = ["" for i in range(len(countryDB))]
+
 pathList = list()
 pathSorted = list()
 frontier = list()
@@ -470,7 +420,7 @@ endList.append("San Diego County, CA")
 endList.append("Bienville Parish, LA")
 endList.append("Rensselaer County, NY")'''
 
-find_path(startList, endList, "A*", True)
+find_path(startList, endList, "A*", False)
 
 print()
 print("End the Algorithm")
