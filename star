@@ -325,7 +325,7 @@ def find_path_for_each_country(starting_locations, goal_locations):
         #printlist(frontier)
         #print()
 
-def printOutput(array, detail_output):
+def printOutput(array):
         max = len(array[0])
         for i in array:
             if(max < len(i)):
@@ -353,30 +353,30 @@ def printOutput(array, detail_output):
 def printOutPut2 ():
     print("Location = ", pathSorted[1].name , " , Heuristic value = ", pathSorted[1].dataF)
 
-def A_star(starting_locations,goal_locations, detail_output):
-    arrayofPathlist = [list() for i in range(len(starting_locations))]
-    for i in range(len(starting_locations)):
-        find_path_for_each_country(starting_locations[i], goal_locations[i])
-        arrayofPathlist[i] = copy.deepcopy(pathSorted)
-        if(detail_output):
-            printOutPut2()
-        pathSorted.clear()
-        pathList.clear()
-        frontier.clear()
-        # printlist(arrayofPathlist[i])
-        # print()
-    if (detail_output == False):
-        printOutput(arrayofPathlist,detail_output)
+def A_star(starting_locations,goal_locations, detail_output, arrayofPathlist, i):
+    find_path_for_each_country(starting_locations, goal_locations)
+    arrayofPathlist[i] = copy.deepcopy(pathSorted)
+    if(detail_output):
+        printOutPut2()
+    pathSorted.clear()
+    pathList.clear()
+    frontier.clear()
+    # printlist(arrayofPathlist[i])
+    # print()
+
     '''לא מצאנו נתיב  No path found.'''
 
 def find_path(starting_locations, goal_locations, search_method, detail_output):
+    arrayofPathlist = [list() for i in range(len(starting_locations))]
     for i in range(len(starting_locations)):
-        split = starting_locations.split(sep=", ", maxsplit=2)
+        split = starting_locations[i].split(sep=", ", maxsplit=2)
         country1 = split[1]
-        split = goal_locations.split(sep=", ", maxsplit=2)
+        split = goal_locations[i].split(sep=", ", maxsplit=2)
         country2 = split[1]
         BFSCity(country1, country2)
-        A_star(starting_locations[i], goal_locations[i], detail_output)
+        A_star(starting_locations[i], goal_locations[i], detail_output, arrayofPathlist, i)
+    if (detail_output == False):
+        printOutput(arrayofPathlist)
 
 class Node:
     def __init__(self,name, data , next, before):
