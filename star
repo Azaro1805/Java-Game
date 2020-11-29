@@ -18,8 +18,10 @@ def createDB (data):
                 CityDB2[i][j] = CityDB[i][j]'''
     return CityDB
 
+
+
 def createCountryDB ():
-    CountryDB = [[set() for j in range(2)] for i in range(56)]
+    CountryDB = [[set() for j in range(2)] for i in range(58)]
     k = 0
     for i in (CityDB):
         alreadyInside = False
@@ -258,41 +260,38 @@ def printPath(endLocation):
     path = list()
     Finish = False
     lastLocation = ""
-    endLocationInside=False
-    while (Finish == False):
-        for i in pathList :
-            if(endLocation == i.name and endLocationInside==False):
-                #print("End location")
-                #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
-                path.append(i)
-                lastLocation = i.before
-                endLocationInside = True
-                #print("lastLocation = ", lastLocation)
-            if (lastLocation == i.name ):
-                #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
-                path.append(i)
-                lastLocation = i.before
-                #print("lastLocation = ", lastLocation)
-                if (lastLocation == "Start Point"):
-                    Finish = True
-                    break
-    path=sortNodeList(path)
-    printRouteString(path)
+    endLocationInside = False
+    if("No path found." == endLocation):
+            pathSorted.append(Node("No path found.", -100, set(), "No path found."))
+            pathSorted.append(Node("No path found.", -100, set(), "No path found."))
+    else:
+        while (Finish == False):
+            for i in pathList :
+                if(endLocation == i.name and endLocationInside==False):
+                    #print("End location")
+                    #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
+                    path.append(i)
+                    lastLocation = i.before
+                    endLocationInside = True
+                    #print("lastLocation = ", lastLocation)
+                if (lastLocation == i.name ):
+                    #print(i.name, " , i.DatafF = ", i.dataF, " , i.before = ", i.before)
+                    path.append(i)
+                    lastLocation = i.before
+                    #print("lastLocation = ", lastLocation)
+                    if (lastLocation == "Start Point"):
+                        Finish = True
+                        break
+        path=sortNodeList(path)
+        printRouteString(path)
 
-    for i in path:
-        pathSorted.append(i)
+        for i in path:
+            pathSorted.append(i)
 
 def createOutPutPrint():
     print("A")
 
 def find_path_for_each_country(starting_locations, goal_locations):
-
-    '''split = starting_locations.split(sep=", ", maxsplit=2)
-    country1 = split[1]
-    split = goal_locations.split(sep=", ", maxsplit=2)
-    country2 = split[1]
-
-    BFSCity(country1, country2)'''
 
     firstStep(starting_locations)
     getPath = False
@@ -305,25 +304,30 @@ def find_path_for_each_country(starting_locations, goal_locations):
             #print(" frontier")
             #printlist(frontier)
             break
-        #print()
-        lowest = getTheLowest()
-        #print("the lowest name  = " ,lowest.name , ", data  = ",lowest.dataF,", before  = ", lowest.before,", set  = ", lowest.next)
-        pathList.append(lowest)
-        #print("pathList = ")
-        #printlist(pathList)
-        frontier.remove(lowest)
+        #print(len(frontier))
+        if (len(frontier) == 0):
+            getPath = True
+            printPath("No path found.")
+        if(getPath==False):
+            lowest = getTheLowest()
+            #print("the lowest name  = " ,lowest.name , ", data  = ",lowest.dataF,", before  = ", lowest.before,", set  = ", lowest.next)
+            pathList.append(lowest)
+            #print("pathList = ")
+            #printlist(pathList)
 
-        for i in lowest.next:
-            if (isInList(pathList,i) == False):
-                F = caculateF(lowest, i)
-                if(F != True):
-                    frontier.append(Node(i, F, myNeighborsSetCity(i), lowest.name))
+            frontier.remove(lowest)
+
+            for i in lowest.next:
+                if (isInList(pathList,i) == False):
+                    F = caculateF(lowest, i)
+                    if(F != True):
+                        frontier.append(Node(i, F, myNeighborsSetCity(i), lowest.name))
+                #print()
+                #print("next i = ",  i)
+                #printlist(fortier)
+            #print("Frontier = ")
+            #printlist(frontier)
             #print()
-            #print("next i = ",  i)
-            #printlist(fortier)
-        #print("Frontier = ")
-        #printlist(frontier)
-        #print()
 
 def printOutput(array):
         max = len(array[0])
@@ -351,7 +355,18 @@ def printOutput(array):
             print(output[i])
 
 def printOutPut2 ():
-    print("Location = ", pathSorted[1].name , " , Heuristic value = ", pathSorted[1].dataF)
+    if( pathSorted[1].name == "No path found."):
+        print("No path found.")
+    else:
+        print("Location = ", pathSorted[1].name , " , Heuristic value = ", pathSorted[1].dataF)
+
+def NoRoute():
+    k=0
+    for i in countryDB:
+        if(len(i[1])==0):
+            for j in i[0]:
+                NoRoutePossible[k]= j
+                k=k+1
 
 def A_star(starting_locations,goal_locations, detail_output, arrayofPathlist, i):
     find_path_for_each_country(starting_locations, goal_locations)
@@ -361,10 +376,17 @@ def A_star(starting_locations,goal_locations, detail_output, arrayofPathlist, i)
     pathSorted.clear()
     pathList.clear()
     frontier.clear()
-    # printlist(arrayofPathlist[i])
+
     # print()
 
     '''לא מצאנו נתיב  No path found.'''
+def isInNoRoutePossible(location,location1):
+    for i in range (len(NoRoutePossible)):
+        if (location == NoRoutePossible[i] and location != location1):
+            return True
+        if (location1 == NoRoutePossible[i] and location != location1):
+            return True
+    return False
 
 def find_path(starting_locations, goal_locations, search_method, detail_output):
     arrayofPathlist = [list() for i in range(len(starting_locations))]
@@ -373,10 +395,16 @@ def find_path(starting_locations, goal_locations, search_method, detail_output):
         country1 = split[1]
         split = goal_locations[i].split(sep=", ", maxsplit=2)
         country2 = split[1]
-        BFSCity(country1, country2)
-        A_star(starting_locations[i], goal_locations[i], detail_output, arrayofPathlist, i)
+        if (isInNoRoutePossible(country1,country2)==False):
+            BFSCity(country1, country2)
+            A_star(starting_locations[i], goal_locations[i], detail_output, arrayofPathlist, i)
+        else:
+            arrayofPathlist[i].append(Node("No path found.", -100, set(), "No path found."))
+            if (detail_output):
+                print("No path found.")
     if (detail_output == False):
         printOutput(arrayofPathlist)
+
 
 class Node:
     def __init__(self,name, data , next, before):
@@ -392,22 +420,28 @@ print()
 data = pan.read_csv(r'C:\Users\oraza\Downloads\adjacency.csv')
 CityDB = createDB(data)
 countryDB = createCountryDB()
+#print(np.matrix(countryDB))
 ringNumbers = [len(countryDB) + 5 for i in range(len(countryDB))]
 citiesName = ["" for i in range(len(countryDB))]
-
+NoRoutePossible = ["" for i in range(len(countryDB))]
+NoRoute()
+#print(NoRoutePossible)
 pathList = list()
 pathSorted = list()
 frontier = list()
-startList = [" " for i in range(3)]
-endList = [" " for i in range(3)]
+startList = [" " for i in range(4)]
+endList = [" " for i in range(4)]
 
 startList[0]="Washington County, UT"
 startList[1]="Chicot County, AR"
 startList[2]="Fairfield County, CT"
+startList[3]="St. Thomas Island, AL"
 
 endList[0]="San Diego County, CA"
 endList[1]="Bienville Parish, LA"
 endList[2]="Rensselaer County, NY"
+endList[3]="Rensselaer County, WW"
+
 
 '''startList = list()
 endList = list()
@@ -420,7 +454,7 @@ endList.append("San Diego County, CA")
 endList.append("Bienville Parish, LA")
 endList.append("Rensselaer County, NY")'''
 
-find_path(startList, endList, "A*", False)
+find_path(startList, endList, "A*", True)
 
 print()
 print("End the Algorithm")
